@@ -1,0 +1,173 @@
+[gd_scene load_steps=12 format=3 uid="uid://dtihxutn4v713"]
+
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
+[ext_resource type="Material" uid="uid://noncehcyd00x" path="res://new_standard_material_3d.tres" id="3_qol8q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x43uh"]
+render_priority = 2
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0.0823529, 0.505882)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yeney"]
+render_priority = 2
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.490196)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mxv3"]
+render_priority = 2
+transparency = 1
+albedo_color = Color(0.0313726, 0, 1, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aocuc"]
+size = Vector3(0.2, 0.05, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y012u"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.0117647, 0.0117647, 1, 0.439216)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7db3e"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.427451)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_523wy"]
+render_priority = 127
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.541176)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ys8nq"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 1, 0.490196)
+
+[node name="TCGizmo" type="Node3D"]
+process_priority = 1
+process_physics_priority = 1
+script = ExtResource("1_7kuo1")
+
+[node name="RingY" type="CSGTorus3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 2
+sorting_offset = 999.0
+snap = 1e-06
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+material = SubResource("StandardMaterial3D_x43uh")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 1, 0)
+TransformType = 1
+
+[node name="RingX" type="CSGTorus3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 1, 0, 0)
+layers = 2
+sorting_offset = 999.0
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+material = SubResource("StandardMaterial3D_yeney")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 0, 0)
+TransformType = 1
+
+[node name="RingZ" type="CSGTorus3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
+layers = 2
+sorting_offset = 999.0
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+material = SubResource("StandardMaterial3D_4mxv3")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 0, 1)
+TransformType = 1
+
+[node name="PlaneXZ" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+layers = 2
+sorting_offset = 999.0
+use_collision = true
+mesh = SubResource("BoxMesh_aocuc")
+material = ExtResource("3_qol8q")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 0, 1)
+
+[node name="PlaneXY" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+layers = 2
+sorting_offset = 999.0
+use_collision = true
+mesh = SubResource("BoxMesh_aocuc")
+material = SubResource("StandardMaterial3D_y012u")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 1, 0)
+
+[node name="PlaneYZ" type="CSGMesh3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.5, 0.5)
+layers = 2
+sorting_offset = 999.0
+use_collision = true
+mesh = SubResource("BoxMesh_aocuc")
+material = SubResource("StandardMaterial3D_7db3e")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 1, 1)
+
+[node name="StickY" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+layers = 2
+sorting_offset = 998.0
+use_collision = true
+size = Vector3(0.03, 1, 0.03)
+material = ExtResource("3_qol8q")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 1, 0)
+
+[node name="StickX" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
+layers = 2
+sorting_offset = 998.0
+use_collision = true
+size = Vector3(0.03, 1, 0.03)
+material = SubResource("StandardMaterial3D_523wy")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 0, 0)
+
+[node name="StickZ" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
+layers = 2
+sorting_offset = 998.0
+use_collision = true
+size = Vector3(0.03, 1, 0.03)
+material = SubResource("StandardMaterial3D_ys8nq")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 0, 1)
+
+[connection signal="input_event_axis" from="RingY" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="RingX" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="RingZ" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="PlaneXZ" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="PlaneXY" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="PlaneYZ" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="StickY" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="StickX" to="." method="input_event_axis"]
+[connection signal="input_event_axis" from="StickZ" to="." method="input_event_axis"]
