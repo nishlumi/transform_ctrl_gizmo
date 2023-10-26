@@ -2,6 +2,11 @@
 
 これはGodot Engineのランタイム実行時に 使える移動・回転コントロール（Gizmo）です。
 
+![Screenshot](img/img01.png "Gizmo image")
+
+動画：
+
+[YouTube](https://youtu.be/58NAPNE-Y24)
 
 ## インストール
 
@@ -79,3 +84,12 @@ Godot Engine でランタイム実行時にオブジェクトを移動・回転�
 しかしまだ機能的には足りていません。
 
 改造できる方はぜひこのアドオンを改良してみてください。
+
+# 開発者
+
+NISHIWAKI(lumis)
+
+[X(Twitter) ](https://twitter.com/lumidina)
+
+[Mastodon](https://mstdn.jp/@lumidina)
+

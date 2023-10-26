@@ -1,6 +1,11 @@
 # transform_ctrl_gizmo
 Transform Control (Gizmo) on runtime loading for Godot Engine
 
+![Screenshot](img/img01.png "Gizmo image")
+
+Video：
+
+[YouTube](https://youtu.be/58NAPNE-Y24)
 
 ## To install
 
@@ -78,3 +83,13 @@ I created this add-on because I wanted a Gizmo that could move and rotate object
 However, it is still not functional enough.
 
 If you can modify it, please try improving this add-on.
+
+
+# Developer
+
+NISHIWAKI(lumis)
+
+[X(Twitter) ](https://twitter.com/lumidina)
+
+[Mastodon](https://mstdn.jp/@lumidina)
+
