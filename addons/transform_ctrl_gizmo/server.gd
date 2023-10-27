@@ -51,9 +51,13 @@ func _input(event: InputEvent) -> void:
 				rayq.to = to
 				var result = space_state.intersect_ray(rayq)
 				if "collider" in result:
-					#print(result.collider.name + " - " + String.num(result.collider_id))
-					#print(result.position)
-					var rcoll = result.collider  #CollisionObject3D
+					#---pattern
+					# 1: Node3D
+					#      -> StaticBody3D                     <== detect
+					#           -> Collision****3D  
+					# 2: Node3D (geometry) 's "use collision"  <== detect
+					# 
+					var rcoll = result.collider  # >>StaticBody3D<< - CollisionObject3D
 					var collparent:Node3D = rcoll.get_parent_node_3d()
 					
 					#---collider object is same with current, skip function.
@@ -61,37 +65,45 @@ func _input(event: InputEvent) -> void:
 						if controller.target == collparent:
 							return
 							
-					print(rcoll.name, "<--", collparent.name)
-					print(MainCamera.position - collparent.position)
+					#print(rcoll.name, "<--", collparent.name)
+					#print(MainCamera.position - collparent.position)
 					#---check parent of hit object has TransformCtrlGizmoReceiver ?
-					var ishit = 0 #collparent.find_children("*","TransformCtrlGizmoSelfHost",true)
-					var ishit_selfhost = 0
-					var ishit_receiver = 0
-					var ccld = collparent.get_children()
-					var objreceiver = null
-					for cc in ccld:
-						if cc.name == "TransformCtrlGizmoSelfHost":
-							#---node has SelfHost version ?
-							ishit_selfhost = 1
-						if cc.name == "TransformCtrlGizmoReceiver":
-							#---node has Receiver version ?
-							ishit_receiver = 1
-							objreceiver = cc
-					if ishit_selfhost == 0:
-						#ishit = collparent.find_children("*","",true)
-						if ishit_receiver > 0:
-							#--- synclonize position and rotation
-							controller.position.x = collparent.position.x
-							controller.position.y = collparent.position.y
-							controller.position.z = collparent.position.z
-							controller.rotation.x = collparent.rotation.x
-							controller.rotation.y = collparent.rotation.y
-							controller.rotation.z = collparent.rotation.z
-							controller.current_camera = MainCamera
-							controller.target = collparent
-							controller.target_receiver = objreceiver
-							controller.visible = true
-				
+					if check_TCGizmo(collparent) == false:
+						#---hit object own has TransformCtrlGizmoReceiver ?
+						check_TCGizmo(rcoll)
+
+func check_TCGizmo(collparent):
+	var ret = false
+	var ishit = 0 #collparent.find_children("*","TransformCtrlGizmoSelfHost",true)
+	var ishit_selfhost = 0
+	var ishit_receiver = 0
+	var ccld = collparent.get_children()
+	var objreceiver = null
+	for cc in ccld:
+		if cc.name == "TransformCtrlGizmoSelfHost":
+			#---node has SelfHost version ?
+			ishit_selfhost = 1
+		if cc.name == "TransformCtrlGizmoReceiver":
+			#---node has Receiver version ?
+			ishit_receiver = 1
+			objreceiver = cc
+	if ishit_selfhost == 0:
+		#ishit = collparent.find_children("*","",true)
+		if ishit_receiver > 0:
+			#--- synclonize position and rotation
+			controller.position.x = collparent.position.x
+			controller.position.y = collparent.position.y
+			controller.position.z = collparent.position.z
+			controller.rotation.x = collparent.rotation.x
+			controller.rotation.y = collparent.rotation.y
+			controller.rotation.z = collparent.rotation.z
+			controller.current_camera = MainCamera
+			controller.target = collparent
+			controller.target_receiver = objreceiver
+			controller.visible = true
+			ret = true
+	
+	return ret
 
 func detect_mousepos_object(position: Vector2):
 	var scene_pos = MainCamera.project_ray_origin(position)

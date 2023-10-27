@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dtihxutn4v713"]
+[gd_scene load_steps=13 format=3 uid="uid://dtihxutn4v713"]
 
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
-[ext_resource type="Material" uid="uid://noncehcyd00x" path="res://new_standard_material_3d.tres" id="3_qol8q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x43uh"]
 render_priority = 2
@@ -24,6 +23,10 @@ albedo_color = Color(0.0313726, 0, 1, 0.4)
 [sub_resource type="BoxMesh" id="BoxMesh_aocuc"]
 size = Vector3(0.2, 0.05, 0.2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk2q7"]
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y012u"]
 transparency = 1
 shading_mode = 0
@@ -33,6 +36,10 @@ albedo_color = Color(0.0117647, 0.0117647, 1, 0.439216)
 transparency = 1
 shading_mode = 0
 albedo_color = Color(1, 0, 0, 0.427451)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhwxh"]
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_523wy"]
 render_priority = 127
@@ -108,7 +115,7 @@ layers = 2
 sorting_offset = 999.0
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = ExtResource("3_qol8q")
+material = SubResource("StandardMaterial3D_pk2q7")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 1)
 
@@ -138,7 +145,7 @@ layers = 2
 sorting_offset = 998.0
 use_collision = true
 size = Vector3(0.03, 1, 0.03)
-material = ExtResource("3_qol8q")
+material = SubResource("StandardMaterial3D_qhwxh")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 

@@ -11,14 +11,17 @@
 ## インストール
 
 1. このリポジトリを `git clone` します。
-1. このフォルダをGodotのゲームプロジェクトにコピーします。
+
+※このリポジトリ自体はサンプルゲームプロジェクトのフォルダとなっています。
+
+2. `addons/transform_ctrl_gizmo` フォルダをGodotのゲームプロジェクトにコピーします。
     
-    コピー元: `親フォルダ/transform_ctrl_gizmo`
+    コピー元: `親フォルダ/transform_ctrl_gizmo/addons/transform_ctrl_gizmo`
 
     貼り付け先: `ゲームフォルダ/addons/transform_ctrl_gizmo`
 
-2. Project メニュー -> Project 設定 -> プラグイン
-3. `transform_ctrl_gizmo` のステータスをONにします。
+3. Project メニュー -> Project 設定 -> プラグイン
+4. `transform_ctrl_gizmo` のステータスをONにします。
 
 ## 使用方法
 
@@ -31,8 +34,15 @@
 **対象のノード（複数）**
 
 1. `TransformCtrlGizmoReceiver` を子ノードとして追加します。
-2. `StaticBody3D`を子ノードとして追加します。
-3. `CollisionShape3D` を `StaticBody3D` の子ノードとして追加します。
+
+    **通常の3Dノード**
+
+    2. `StaticBody3D`を子ノードとして追加します。
+    3. `CollisionShape3D` を `StaticBody3D` の子ノードとして追加します。
+
+    **`Use Collision` プロパティを持つ3Dノード**
+
+    2. `Use collision` にチェックを入れます。
 
 ※Godotでの衝突の処理方法に準じます。
 

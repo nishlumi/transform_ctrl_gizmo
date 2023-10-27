@@ -8,16 +8,17 @@ enum TransformOperateType{Translate = 0, Rotate = 1, Scale = 2}
 @export var basecolor: Color
 @export var selcolor: Color
 
+var is_transformtype: String
 var old_position: Vector3
 var is_pressed: bool
-var is_transformtype: String
 var old_pressed: bool
-
 var old_mousepos: Vector2
+
+var clickpos: Vector3
 
 
 #---fire trigger input event Ring object
-signal input_event_axis(event:InputEvent, position, old_position, axis: Vector3, operate_type, is_global:bool)
+signal input_event_axis(event:InputEvent, position, old_position, clickpos:Vector3, axis: Vector3, operate_type, is_global:bool)
 signal pressing_this_axis(axis: Vector3, is_pressed: bool)
 
 # Called when the node enters the scene tree for the first time.
@@ -60,10 +61,12 @@ func _input(event: InputEvent) -> void:
 			var rcoll = result.collider  #CollisionObject3D
 			#var collparent:Node3D = rcoll.get_parent_node_3d()
 			#var collgranpa = collparent.get_parent_node_3d().get_parent_node_3d()
-			print("***hitted= ",rcoll.name)
+			#print("***hitted= ",rcoll.name)
 			#print("  ", collparent)
 			#print("    ", collgranpa)
-			print(result)
+			#print(result)
+			
+			clickpos = result.position
 			
 			if rcoll.name == name:
 				if TransformType == TransformOperateType.Rotate: #---rotation
@@ -89,8 +92,8 @@ func _input(event: InputEvent) -> void:
 		var mousepos = event.position
 		if is_pressed :
 			#---fire input ring
-			print(event)
-			input_event_axis.emit(event, mousepos, old_mousepos, axis, TransformType, is_global)
+			#print(event)
+			input_event_axis.emit(event, mousepos, old_mousepos, clickpos, axis, TransformType, is_global)
 		
 		##print("event after position=",position)
 		#old_position = position
@@ -109,7 +112,7 @@ func mainbody(event, meshobj, typestr: String = ""):
 		#---Grab target axis UI
 		if mouseev.button_index == MOUSE_BUTTON_LEFT:
 			is_pressed = mouseev.pressed
-			print(is_pressed)
+			#print(is_pressed)
 			
 			pressing_this_axis.emit(axis, is_pressed)
 			#---start transform

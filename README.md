@@ -9,15 +9,19 @@ Video：
 
 ## To install
 
-1. run `git clone` this repository.
-1. Copy this directory to a game project of Godot.
 
-    src: `parent dir/transform_ctrl_gizmo`
+1. run `git clone` this repository.
+
+* This repository is sample game project directory.
+
+2. Copy `addons/transform_ctrl_gizmo` directory to a game project of Godot.
+
+    src: `parent dir/transform_ctrl_gizmo/addons/transform_ctrl_gizmo`
 
     destination: `game project dir/addons/transform_ctrl_gizmo`
 
-2. Project menu -> Project settings -> Plugin
-3. Enable status of `transform_ctrl_gizmo`
+3. Project menu -> Project settings -> Plugin
+4. Enable status of `transform_ctrl_gizmo`
 
 ## To use
 
@@ -30,8 +34,15 @@ Video：
 **Target Nodes**
 
 1. Add `TransformCtrlGizmoReceiver` as child node.
-2. Add `StaticBody3D` as child node.
-3. Add `CollisionShape3D` as child node of `StaticBody3D`.
+
+    **Normal 3D node** 
+
+    2. Add `StaticBody3D` as child node.
+    3. Add `CollisionShape3D` as child node of `StaticBody3D`.
+
+    **3D node has `Use collision` property**
+
+    2. Enable `Use collision`
 
 * Please follow how Godot handles collisions.
 
