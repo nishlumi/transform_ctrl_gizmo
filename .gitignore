@@ -13,3 +13,15 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# dotenv environment variables file
+.env
+
+*.env
+
+.vscode/
+
+*.ffs_db
+
+*.bak
+*.tmp

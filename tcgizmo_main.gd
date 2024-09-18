@@ -21,6 +21,9 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 
 var savemat = []
 
+var last_mouse_pos = Vector2()
+var last_mouse_pos3 = Vector3()
+
 const base_distance = 2
 
 # Called when the node enters the scene tree for the first time.
@@ -119,8 +122,12 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	if target == null:
 		return
 	
-	var oldpos3 = current_camera.project_ray_normal(event.position - event.relative)
-	var curpos3 = current_camera.project_ray_normal(event.position)
+	var oldpos3 = current_camera.project_ray_normal(old_position) #event.position - event.relative)
+	var curpos3 = current_camera.project_ray_normal(cur_position) #event.position)
+	var new_mouse_position = lineplane_intersect(oldpos3, curpos3, clickpos, axis)
+	var curdot = curpos3.dot(oldpos3)
+	print("new_mouse_pos=",new_mouse_position)
+	print(curpos3.dot(oldpos3))
 	var EnumTrans: Array = ["translate","rotate","scale"]
 	
 	#print("    click=",clickpos, " <-> curpos=", curpos3)
@@ -128,9 +135,10 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	if transformType == 0: #---translate
 		var diff:Vector3
 		
-		diff = (curpos3) - (oldpos3)
+		diff = curpos3 - oldpos3
 		
 		print("**",oldpos3, " -> ", curpos3, " -> ", "diff=",diff)
+		"""
 		if diff.x > 0:
 			diff.x = 0.1
 		elif diff.x < 0:
@@ -143,75 +151,17 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			diff.z = 0.1
 		elif diff.z < 0:
 			diff.z = -0.1
+		"""
 		
 		var res = Vector3.ZERO
 		var relXY = 0
 		
 		var istran = true
 		
-		res = diff * axis * Vector3(0.5, 0.5, 0.5)
+		res = diff * axis * curdot
+		
 
 		
-		#---set by
-#		if axis.x == 1:
-#			if diff.x > 0.0:
-#				res.x = -clickpos.x - (diff.x) 
-#				istran = true
-#			elif diff.x < 0.0:
-#				res.x = clickpos.x + (diff.x)
-#				istran = true
-#			res.x = res.x * 0.1
-#		else:
-#			res.x = 0
-#		istran = true
-#		res.x = (
-#			event.relative.x * forward.x  + 
-#			event.relative.x * right.x  + 
-#			event.relative.x * up.x  
-#			#event.relative.y * forward.x + 
-#			#event.relative.y * right.x + 
-#			#event.relative.y * up.x
-#			) * 0.01 * axis.x
-		
-#		if axis.y == 1:
-#			if diff.y > 0.0:
-#				res.y = -clickpos.y - (diff.y) 
-#				istran = true
-#			elif diff.y < 0.0:
-#				res.y = clickpos.y + (diff.y)
-#				istran = true
-#			res.y = res.y * 0.1
-#		else:
-#			res.y = 0
-#		istran = true
-#		res.y = (
-#			#event.relative.x * forward.y + 
-#			#event.relative.x * right.y + 
-#			#event.relative.x * up.y +
-#			event.relative.y * forward.y  + 
-#			event.relative.y * right.y   + 
-#			event.relative.y * up.y 
-#			) * 0.01 * axis.y
-		
-#		if axis.z == 1:
-#			if diff.z > 0.0:
-#				res.z = -clickpos.z - (diff.z)
-#				istran = true
-#			elif diff.z < 0.0:
-#				res.z = clickpos.z + (diff.z)
-#				istran = true
-#			res.z = res.z * 0.1
-#		else:
-#			res.z = 0
-#		istran = true
-#		res.z = (
-#			event.relative.x * forward.z + 
-#			event.relative.x * right.z  + 
-#			event.relative.x * up.z  +
-#			event.relative.y * forward.z  + 
-#			event.relative.y * right.z  + 
-#			event.relative.y * up.z 
-#			) * 0.01 * axis.z
 		
 		#print("  translate",res)
 		if istran == true:
@@ -231,14 +181,57 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	elif transformType == 1: #---rotation
 		var res = Vector3.ZERO
 		var relXY = event.relative.x + event.relative.y
-		if axis.x == 1:
-			res.x = -target.rotation.x + relXY * 0.1
-		if axis.y == 1:
-			res.y = -target.rotation.y + relXY * 0.1
-		if axis.z == 1:
-			res.z = target.rotation.z + relXY * 0.1
+		var diff = curpos3 - oldpos3
+		var sensitivity = 1000
 		
-		target.transform = target.transform.rotated_local(axis, relXY * 0.01)
+		print("rotate=", axis, diff)
+		if axis.x == 1:
+			#res.x = -target.rotation.x + relXY * 0.1
+			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.x * sensitivity))
+			print(deg_to_rad(diff.x * sensitivity))
+		if axis.y == 1:
+			#res.y = -target.rotation.y + relXY * 0.1
+			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.y * sensitivity))
+			print(deg_to_rad(diff.y * sensitivity))
+		if axis.z == 1:
+			#res.z = target.rotation.z + relXY * 0.1
+			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.z * sensitivity))
+			print(deg_to_rad(diff.z * sensitivity))
+		
+		
+		
+		
+		#target.transform = target.transform.rotated_local(axis, ) #relXY * 0.01)
+		
+		last_mouse_pos3 = new_mouse_position
 
 func _emit_gizmo_rotate(x, y, z) -> void:
 	gizmo_rotate.emit(x, y, z, is_relative)
+
+
+#=================================================================
+# Vector functions
+#=================================================================
+func magnitude_in_direction(vector: Vector3, direction: Vector3, is_nomalized: bool = true):
+	if (is_nomalized):
+		direction.normalized()
+	
+	return vector.dot(direction)
+
+func lineplane_distance(linepoint: Vector3, linevec: Vector3, planepoint: Vector3, planenormal: Vector3):
+	var planeline_sa = planepoint - linepoint
+	var dotnum = planeline_sa.dot(planenormal)
+	var dotdenominator = linevec.dot(planenormal)
+	
+	if (dotdenominator != 0):
+		return dotnum / dotdenominator
+	
+	return 0
+
+func lineplane_intersect(linepoint: Vector3, linevec: Vector3, planepoint: Vector3, planenormal: Vector3):
+	var dist = lineplane_distance(linepoint, linevec, planepoint, planenormal)
+	
+	if (dist != 0):
+		return linepoint + (linevec * dist)
+	
+	return Vector3.ZERO

@@ -12,11 +12,11 @@
 
 1. このリポジトリを `git clone` します。
 
-※このリポジトリ自体はサンプルゲームプロジェクトのフォルダとなっています。
+※このリポジトリはアドオン自体のフォルダにしました。
 
-2. `addons/transform_ctrl_gizmo` フォルダをGodotのゲームプロジェクトにコピーします。
+2. このフォルダをGodotのゲームプロジェクトフォルダにコピーします。
     
-    コピー元: `親フォルダ/transform_ctrl_gizmo/addons/transform_ctrl_gizmo`
+    コピー元: `git clone後の親フォルダ/transform_ctrl_gizmo/`
 
     貼り付け先: `ゲームフォルダ/addons/transform_ctrl_gizmo`
 

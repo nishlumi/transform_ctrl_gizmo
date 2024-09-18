@@ -12,11 +12,11 @@ Video：
 
 1. run `git clone` this repository.
 
-* This repository is sample game project directory.
+*This repository is a folder for the add-on itself.
 
 2. Copy `addons/transform_ctrl_gizmo` directory to a game project of Godot.
 
-    src: `parent dir/transform_ctrl_gizmo/addons/transform_ctrl_gizmo`
+    src: `[parent dir after git clone]/transform_ctrl_gizmo`
 
     destination: `game project dir/addons/transform_ctrl_gizmo`
 

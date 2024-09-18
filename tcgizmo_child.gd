@@ -73,14 +73,19 @@ func _input(event: InputEvent) -> void:
 					var meshobj = self
 					#print(meshobj)
 					mainbody(event, meshobj, "rotation")
+					is_pressed = event.pressed
+					old_mousepos = event.position
 				elif TransformType == TransformOperateType.Translate: #---translation
 					var meshobj = self
 					mainbody(event, meshobj, "translate")
+					is_pressed = event.pressed
+					old_mousepos = event.position
 			else:
 				self.material_override.set("albedo_color",basecolor)
 				#toggle_otheraxis_visible(self,true)
 				is_pressed = false
 				is_transformtype = ""
+			
 				
 		else:
 			self.material_override.set("albedo_color",basecolor)
@@ -93,13 +98,15 @@ func _input(event: InputEvent) -> void:
 		if is_pressed :
 			#---fire input ring
 			#print(event)
+			var delta = mousepos - old_mousepos
 			input_event_axis.emit(event, mousepos, old_mousepos, clickpos, axis, TransformType, is_global)
+			old_mousepos = event.position
 		
 		##print("event after position=",position)
 		#old_position = position
 		old_pressed = is_pressed
 		
-		old_mousepos = mousepos
+		#old_mousepos = mousepos
 	
 	
 	
