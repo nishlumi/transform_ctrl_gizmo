@@ -13,6 +13,14 @@ var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.
 #---enable flag to detect a target node
 @export var enable_detect: bool = true
 
+@export var move_speed: float = 2
+@export var rotate_speed: float = 1000
+@export var scale_speed: float = 10
+
+var bk_move_speed: float = 2
+var bk_rotate_speed: float = 1000
+var bk_scale_speed: float = 10
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if enable_detect == true:
@@ -27,7 +35,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if move_speed != bk_move_speed:
+		controller.move_speed = move_speed
+		bk_move_speed = move_speed
+	if rotate_speed != bk_rotate_speed:
+		controller.rotate_speed = rotate_speed
+		bk_rotate_speed = rotate_speed
+	if scale_speed != bk_scale_speed:
+		controller.scale_speed = scale_speed
+		bk_scale_speed = scale_speed
+
 
 
 func _input(event: InputEvent) -> void:

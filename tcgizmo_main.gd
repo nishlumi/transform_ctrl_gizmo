@@ -18,6 +18,9 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 # show position offset
 @export var show_offset: Vector3 = Vector3.ZERO
 @export var target_receiver: TransformCtrlGizmoReceiver
+@export var move_speed: float = 2
+@export var rotate_speed: float = 1000
+@export var scale_speed: float = 10
 
 var savemat = []
 
@@ -122,12 +125,15 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	if target == null:
 		return
 	
-	var oldpos3 = current_camera.project_ray_normal(old_position) #event.position - event.relative)
+	
+	
+	var oldpos3 = last_mouse_pos3 #
+	oldpos3 = current_camera.project_ray_normal(old_position)
 	var curpos3 = current_camera.project_ray_normal(cur_position) #event.position)
-	var new_mouse_position = lineplane_intersect(oldpos3, curpos3, clickpos, axis)
-	var curdot = curpos3.dot(oldpos3)
-	print("new_mouse_pos=",new_mouse_position)
-	print(curpos3.dot(oldpos3))
+	#var new_mouse_position = lineplane_intersect(oldpos3, curpos3, clickpos, axis)
+	var curdot = oldpos3.dot(curpos3)
+	
+	
 	var EnumTrans: Array = ["translate","rotate","scale"]
 	
 	#print("    click=",clickpos, " <-> curpos=", curpos3)
@@ -138,27 +144,15 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		diff = curpos3 - oldpos3
 		
 		print("**",oldpos3, " -> ", curpos3, " -> ", "diff=",diff)
-		"""
-		if diff.x > 0:
-			diff.x = 0.1
-		elif diff.x < 0:
-			diff.x = -0.1
-		if diff.y > 0:
-			diff.y = 0.1
-		elif diff.y < 0:
-			diff.y = -0.1
-		if diff.z > 0:
-			diff.z = 0.1
-		elif diff.z < 0:
-			diff.z = -0.1
-		"""
+		print("  curdot=",curdot)
+
 		
 		var res = Vector3.ZERO
 		var relXY = 0
 		
 		var istran = true
 		
-		res = diff * axis * curdot
+		res = diff * axis * curdot * move_speed
 		
 
 		
@@ -168,21 +162,17 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			#target.transform = target.transform.translated_local(res)
 			if is_global == true:
 				target.global_translate(res)
-#				target.global_position.x = target.global_position.x + res.x
-#				target.global_position.y = target.global_position.y + res.y
-#				target.global_position.z = target.global_position.z + res.z
 			else:
-				target.translate(res)
-#				target.position.x = target.position.x + res.x
-#				target.position.y = target.position.y + res.y
-#				target.position.z = target.position.z + res.z
-			print("target=", target.name, ",  transformed position",target.position)
+				var rota = target.transform.basis
+				var local_diff = rota.inverse() * diff
+				target.translate(local_diff  * axis * curdot * move_speed)
+			print("  target=", target.name, ",  transformed position",target.position)
 		
 	elif transformType == 1: #---rotation
 		var res = Vector3.ZERO
 		var relXY = event.relative.x + event.relative.y
 		var diff = curpos3 - oldpos3
-		var sensitivity = 1000
+		var sensitivity = rotate_speed
 		
 		print("rotate=", axis, diff)
 		if axis.x == 1:
@@ -203,7 +193,8 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		
 		#target.transform = target.transform.rotated_local(axis, ) #relXY * 0.01)
 		
-		last_mouse_pos3 = new_mouse_position
+	print(" ")
+	last_mouse_pos3 = curpos3
 
 func _emit_gizmo_rotate(x, y, z) -> void:
 	gizmo_rotate.emit(x, y, z, is_relative)
