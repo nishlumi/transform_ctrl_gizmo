@@ -1,56 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://dtihxutn4v713"]
+[gd_scene load_steps=7 format=3 uid="uid://dtihxutn4v713"]
 
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x43uh"]
-render_priority = 2
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 1, 0.0823529, 0.505882)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yeney"]
-render_priority = 2
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.490196)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mxv3"]
-render_priority = 2
-transparency = 1
-albedo_color = Color(0.0313726, 0, 1, 0.4)
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="2_vo4iw"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_g53tm"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_e00kd"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_aocuc"]
 size = Vector3(0.2, 0.05, 0.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk2q7"]
-shading_mode = 0
-albedo_color = Color(0, 1, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y012u"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0.0117647, 0.0117647, 1, 0.439216)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7db3e"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.427451)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhwxh"]
-shading_mode = 0
-albedo_color = Color(0, 1, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_523wy"]
-render_priority = 127
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.541176)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ys8nq"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 0, 1, 0.490196)
 
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
@@ -61,6 +18,8 @@ script = ExtResource("1_7kuo1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("2_vo4iw")
+material_overlay = ExtResource("2_vo4iw")
 snap = 1e-06
 use_collision = true
 collision_layer = 2
@@ -70,7 +29,6 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_x43uh")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 TransformType = 1
@@ -79,6 +37,8 @@ TransformType = 1
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 1, 0, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("4_g53tm")
+material_overlay = ExtResource("4_g53tm")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -87,7 +47,6 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_yeney")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 TransformType = 1
@@ -96,6 +55,8 @@ TransformType = 1
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("5_e00kd")
+material_overlay = ExtResource("5_e00kd")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -104,7 +65,6 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_4mxv3")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
 TransformType = 1
@@ -113,9 +73,10 @@ TransformType = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("2_vo4iw")
+material_overlay = ExtResource("2_vo4iw")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = SubResource("StandardMaterial3D_pk2q7")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 1)
 
@@ -123,9 +84,10 @@ axis = Vector3(1, 0, 1)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("5_e00kd")
+material_overlay = ExtResource("5_e00kd")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = SubResource("StandardMaterial3D_y012u")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 1, 0)
 
@@ -133,9 +95,10 @@ axis = Vector3(1, 1, 0)
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.5, 0.5)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("4_g53tm")
+material_overlay = ExtResource("4_g53tm")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = SubResource("StandardMaterial3D_7db3e")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 1)
 
@@ -143,9 +106,10 @@ axis = Vector3(0, 1, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("2_vo4iw")
+material_overlay = ExtResource("2_vo4iw")
 use_collision = true
 size = Vector3(0.03, 1, 0.03)
-material = SubResource("StandardMaterial3D_qhwxh")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 
@@ -153,9 +117,10 @@ axis = Vector3(0, 1, 0)
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("4_g53tm")
+material_overlay = ExtResource("4_g53tm")
 use_collision = true
 size = Vector3(0.03, 1, 0.03)
-material = SubResource("StandardMaterial3D_523wy")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 
@@ -163,9 +128,10 @@ axis = Vector3(1, 0, 0)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("5_e00kd")
+material_overlay = ExtResource("5_e00kd")
 use_collision = true
 size = Vector3(0.03, 1, 0.03)
-material = SubResource("StandardMaterial3D_ys8nq")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
 

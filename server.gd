@@ -3,6 +3,7 @@ extends Node3D
 
 #---if you want to change tscn, change .tscn name.
 var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
+#var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template1.tscn")
 
 #---Gizmo tscn
 @export var controller: TCGizmoTop

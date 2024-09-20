@@ -5,6 +5,13 @@ extends Node3D
 @export var receive_layer: int = 1
 #---gizmo offset to show
 @export var show_offset: Vector3 = Vector3.ZERO
+#---this node execute transform?
+@export var enable_translate: bool = true
+@export var enable_rotate: bool = true
+@export var enable_scale: bool = true
+
+#---this node access which axis?
+@export var is_x: bool 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

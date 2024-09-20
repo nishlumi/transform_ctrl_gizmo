@@ -36,7 +36,6 @@ func _ready() -> void:
 	#	target = get_parent_node_3d()
 		
 	#current_camera = %MainCamera
-	
 	setup_meshObject()
 
 func _exit_tree() -> void:
@@ -175,18 +174,34 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		var sensitivity = rotate_speed
 		
 		print("rotate=", axis, diff)
-		if axis.x == 1:
-			#res.x = -target.rotation.x + relXY * 0.1
-			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.x * sensitivity))
-			print(deg_to_rad(diff.x * sensitivity))
-		if axis.y == 1:
-			#res.y = -target.rotation.y + relXY * 0.1
-			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.y * sensitivity))
-			print(deg_to_rad(diff.y * sensitivity))
-		if axis.z == 1:
-			#res.z = target.rotation.z + relXY * 0.1
-			target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.z * sensitivity))
-			print(deg_to_rad(diff.z * sensitivity))
+		if is_global == true:
+			if axis.x == 1:
+				#res.x = -target.rotation.x + relXY * 0.1
+				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.x * sensitivity))
+				print(deg_to_rad(diff.x * sensitivity))
+			if axis.y == 1:
+				#res.y = -target.rotation.y + relXY * 0.1
+				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.y * sensitivity))
+				print(deg_to_rad(diff.y * sensitivity))
+			if axis.z == 1:
+				#res.z = target.rotation.z + relXY * 0.1
+				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.z * sensitivity))
+				print(deg_to_rad(diff.z * sensitivity))
+		else:
+			var rota = target.transform.basis
+			var local_diff = rota.inverse() * diff
+			if axis.x == 1:
+				#res.x = -target.rotation.x + relXY * 0.1
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.x * sensitivity))
+				print(deg_to_rad(local_diff.x * sensitivity))
+			if axis.y == 1:
+				#res.y = -target.rotation.y + relXY * 0.1
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.y * sensitivity))
+				print(deg_to_rad(local_diff.y * sensitivity))
+			if axis.z == 1:
+				#res.z = target.rotation.z + relXY * 0.1
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.z * sensitivity))
+				print(deg_to_rad(local_diff.z * sensitivity))
 		
 		
 		

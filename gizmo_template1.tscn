@@ -1,46 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://du13ymfmy3fwf"]
+[gd_scene load_steps=7 format=3 uid="uid://du13ymfmy3fwf"]
 
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
-[ext_resource type="Material" uid="uid://noncehcyd00x" path="res://new_standard_material_3d.tres" id="3_qol8q"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x43uh"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 1, 0.0823529, 0.505882)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yeney"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.490196)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mxv3"]
-transparency = 1
-albedo_color = Color(0.0313726, 0, 1, 0.4)
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="2_pcf3q"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_oncui"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_wog72"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_aocuc"]
 size = Vector3(0.5, 0.05, 0.5)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y012u"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0.0117647, 0.0117647, 1, 0.439216)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7db3e"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.427451)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_523wy"]
-render_priority = 127
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.541176)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ys8nq"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 0, 1, 0.490196)
 
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
@@ -50,6 +17,8 @@ script = ExtResource("1_7kuo1")
 [node name="RingY" type="CSGTorus3D" parent="."]
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("2_pcf3q")
+material_overlay = ExtResource("2_pcf3q")
 snap = 1e-06
 use_collision = true
 collision_layer = 2
@@ -59,7 +28,6 @@ outer_radius = 0.6
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_x43uh")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 TransformType = 1
@@ -68,6 +36,8 @@ TransformType = 1
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("4_oncui")
+material_overlay = ExtResource("4_oncui")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -76,7 +46,6 @@ outer_radius = 0.6
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_yeney")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 TransformType = 1
@@ -85,6 +54,8 @@ TransformType = 1
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("5_wog72")
+material_overlay = ExtResource("5_wog72")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -93,7 +64,6 @@ outer_radius = 0.6
 sides = 20
 ring_sides = 3
 smooth_faces = false
-material = SubResource("StandardMaterial3D_4mxv3")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
 TransformType = 1
@@ -102,9 +72,10 @@ TransformType = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.762139, 0, 0.735685)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("2_pcf3q")
+material_overlay = ExtResource("2_pcf3q")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = ExtResource("3_qol8q")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 1)
 is_global = true
@@ -113,9 +84,10 @@ is_global = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.797005, 0.676163, 0)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("5_wog72")
+material_overlay = ExtResource("5_wog72")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = SubResource("StandardMaterial3D_y012u")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 1, 0)
 is_global = true
@@ -124,9 +96,10 @@ is_global = true
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.899518, 0.727212)
 layers = 2
 sorting_offset = 999.0
+material_override = ExtResource("4_oncui")
+material_overlay = ExtResource("4_oncui")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-material = SubResource("StandardMaterial3D_7db3e")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 1)
 is_global = true
@@ -135,9 +108,10 @@ is_global = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("2_pcf3q")
+material_overlay = ExtResource("2_pcf3q")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-material = ExtResource("3_qol8q")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 
@@ -145,9 +119,10 @@ axis = Vector3(0, 1, 0)
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("4_oncui")
+material_overlay = ExtResource("4_oncui")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-material = SubResource("StandardMaterial3D_523wy")
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 
@@ -155,9 +130,10 @@ axis = Vector3(1, 0, 0)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
 layers = 2
 sorting_offset = 998.0
+material_override = ExtResource("5_wog72")
+material_overlay = ExtResource("5_wog72")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-material = SubResource("StandardMaterial3D_ys8nq")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
 

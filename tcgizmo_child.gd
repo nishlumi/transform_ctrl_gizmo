@@ -28,6 +28,11 @@ func _ready() -> void:
 	is_pressed = false
 	old_pressed = false
 	is_transformtype = ""
+	
+	var mat = get_node(".") as GeometryInstance3D
+	print(mat.material_override.get_class())
+	#var bmat = mat.material_override.get_flag("no_depth_test")
+	#print(bmat)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
