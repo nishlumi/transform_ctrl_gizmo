@@ -13,11 +13,18 @@ var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.
 @export var MainCamera: Camera3D
 #---enable flag to detect a target node
 @export var enable_detect: bool = true
+#---child collision layer
+@export_range(1,20) var child_collision_layer: int
+#---space is global ? or self ?
+@export var is_global: bool = false
 
 @export var move_speed: float = 2
 @export var rotate_speed: float = 1000
 @export var scale_speed: float = 10
 
+#---Gizmo mode
+enum TCGizmoMode {FindTarget = 0, MoveTarget = 1, MoveWaitTarget = 2}
+@onready var gizmode: TCGizmoMode = TCGizmoMode.FindTarget;
 var bk_move_speed: float = 2
 var bk_rotate_speed: float = 1000
 var bk_scale_speed: float = 10
@@ -57,9 +64,10 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			#---Start drag Gizmo
 			if event.pressed:
-		
+				
 				#---Moving mouse
 				var curMousePos = event.position
+				#---Detect Target object to move, or waiting target to move.
 				var space_state = get_world_3d().get_direct_space_state()
 				var from = MainCamera.project_ray_origin(curMousePos)
 				var to = from + MainCamera.project_ray_normal(curMousePos) * 1000.0
@@ -67,6 +75,15 @@ func _input(event: InputEvent) -> void:
 				var rayq = PhysicsRayQueryParameters3D.new()
 				rayq.from = from
 				rayq.to = to
+				
+				#print("gizmode=",gizmode)
+				#if gizmode == TCGizmoMode.MoveTarget:
+				#rayq.collision_mask = 1 << (child_collision_layer - 1)
+				rayq.hit_from_inside = true
+				#print(rayq.collision_mask)
+				
+				var ishit_finalcheck = true
+				
 				var result = space_state.intersect_ray(rayq)
 				if "collider" in result:
 					#---pattern
@@ -76,21 +93,59 @@ func _input(event: InputEvent) -> void:
 					# 2: Node3D (geometry) 's "use collision"  <== detect
 					# 
 					var rcoll = result.collider  # >>StaticBody3D<< - CollisionObject3D
-					var collparent:Node3D = rcoll.get_parent_node_3d()
+					var collparent = rcoll.get_parent_node_3d()
+					print(rcoll.name, "<--", collparent.name)
 					
 					#---collider object is same with current, skip function.
 					if controller.target != null:
-						if controller.target == collparent:
-							return
-							
-					#print(rcoll.name, "<--", collparent.name)
-					#print(MainCamera.position - collparent.position)
+						if checkCurrentTargetSameAs(collparent):
+							#---if waiting object to move by gizmo ?
+							print("same objet hit...")
+							ishit_finalcheck = false
+					
 					#---check parent of hit object has TransformCtrlGizmoReceiver ?
-					if check_TCGizmo(collparent) == false:
+					if check_TCGizmo(collparent, rcoll):
+						print("new object hit!")
+					else:
 						#---hit object own has TransformCtrlGizmoReceiver ?
-						check_TCGizmo(rcoll)
+						if check_TCGizmo(rcoll, rcoll):
+							print("new object hit!")
+						else:
+							ishit_finalcheck = false
+						
+					print("receive target is clicking.")
+				else:
+					ishit_finalcheck = false
+				
+				#---first ray not hit, hit but non target Node type ?
+				if !ishit_finalcheck:
+					var secondresult = controller.check_collision(from, to, child_collision_layer)
+					if ("collider" in secondresult):
+						#---hit as the object with gizmo
+						var scndrcoll = secondresult.collider
+						var scndcollparent = scndrcoll.get_parent_node_3d()
+						print(scndrcoll.name, "<--", scndcollparent.name)
+						#---check already shown gizmo. wheather it click the gizmo?
+						if scndcollparent is TCGizmoChild:
+							#---that object is really target ???
+							print("TCGizmoChild is active!")
+							controller.unhandled_input(event,scndrcoll, scndcollparent)
+							gizmode = TCGizmoMode.MoveTarget
+							return
+					else:
+						#---1st hit object is already hitted object (no operated gizmo)
+						controller.target = null
+						controller.visible = false
+						return
+			else:
+				controller.unhandled_input(event,null,null)
+				#if checkCurrentTargetSameAs()
+				gizmode = TCGizmoMode.MoveWaitTarget
+	elif event is InputEventMouseMotion:
+		if controller.is_pressing_leftbutton:
+			controller.unhandled_input(event,null,null)
 
-func check_TCGizmo(collparent):
+func check_TCGizmo(collparent, collider) -> bool:
 	var ret = false
 	var ishit = 0 #collparent.find_children("*","TransformCtrlGizmoSelfHost",true)
 	var ishit_selfhost = 0
@@ -109,19 +164,47 @@ func check_TCGizmo(collparent):
 		#ishit = collparent.find_children("*","",true)
 		if ishit_receiver > 0:
 			#--- synclonize position and rotation
-			controller.position.x = collparent.position.x
-			controller.position.y = collparent.position.y
-			controller.position.z = collparent.position.z
-			controller.rotation.x = collparent.rotation.x
-			controller.rotation.y = collparent.rotation.y
-			controller.rotation.z = collparent.rotation.z
+			if is_global:
+				controller.global_position.x = collparent.global_position.x
+				controller.global_position.y = collparent.global_position.y
+				controller.global_position.z = collparent.global_position.z
+				controller.global_position.x = collparent.global_position.x
+				controller.global_position.y = collparent.global_position.y
+				controller.global_position.z = collparent.global_position.z
+			else:
+				controller.position.x = collparent.position.x
+				controller.position.y = collparent.position.y
+				controller.position.z = collparent.position.z
+				controller.rotation.x = collparent.rotation.x
+				controller.rotation.y = collparent.rotation.y
+				controller.rotation.z = collparent.rotation.z
 			controller.current_camera = MainCamera
 			controller.target = collparent
+			controller.target_collider = collider
+			controller.setup_child_collision_layer(child_collision_layer)
 			controller.target_receiver = objreceiver
 			controller.visible = true
+			controller.setup_is_global_flag(is_global)
+			
+			gizmode = TCGizmoMode.MoveWaitTarget
 			ret = true
 	
 	return ret
+
+func check_collision(from: Vector3, to: Vector3, layer: int) -> Dictionary:
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = from
+	query.to = to
+	query.collision_mask = 1 << (layer - 1)
+	var result:Dictionary = space_state.intersect_ray(query)
+	return result
+
+func checkCurrentTargetSameAs(hitobjet: Node3D) -> bool:
+	if controller.target.get_instance_id() == hitobjet.get_instance_id():
+		return true
+	else:
+		return false
 
 func detect_mousepos_object(position: Vector2):
 	var scene_pos = MainCamera.project_ray_origin(position)

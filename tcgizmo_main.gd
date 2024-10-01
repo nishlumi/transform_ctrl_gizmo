@@ -14,6 +14,7 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 #@export var is_scale: bool
 @export var is_selfhost: bool = false
 @export var target: Node3D = null
+@export var target_collider: CollisionObject3D = null
 @export var current_camera: Camera3D
 # show position offset
 @export var show_offset: Vector3 = Vector3.ZERO
@@ -26,12 +27,17 @@ var savemat = []
 
 var last_mouse_pos = Vector2()
 var last_mouse_pos3 = Vector3()
+var last_target_collision_layer: int
+
+var gizmo_inner_collision_layer: int
+var is_pressing_leftbutton: bool
+var pressing_tcgizmo: TCGizmoChild
 
 const base_distance = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	is_pressing_leftbutton = false;
 	#if target == null:
 	#	target = get_parent_node_3d()
 		
@@ -116,6 +122,39 @@ func setup_meshObject():
 		savemat.append(mat)
 		meshobj.material_override = mat
 
+func setup_child_collision_layer(layer: int):
+	var arr = [
+		"RingY/StaticBody3D",
+		"RingX/StaticBody3D",
+		"RingZ/StaticBody3D",
+		"PlaneXZ/StaticBody3D",
+		"PlaneXY/StaticBody3D",
+		"PlaneYZ/StaticBody3D",
+		"StickY/StaticBody3D",
+		"StickX/StaticBody3D",
+		"StickZ/StaticBody3D"
+	]
+	for a in arr:
+		var staticbody = get_node(a) as StaticBody3D
+		staticbody.collision_layer = 1 << (layer - 1)
+	gizmo_inner_collision_layer = layer
+	
+func setup_is_global_flag(flag: bool):
+	var arr = [
+		"RingY",
+		"RingX",
+		"RingZ",
+		"PlaneXZ",
+		"PlaneXY",
+		"PlaneYZ",
+		"StickY",
+		"StickX",
+		"StickZ"
+	]
+	for a in arr:
+		var tcg = get_node(a) as TCGizmoChild
+		tcg.is_global =  flag
+
 func input_event(camera:Node, event:InputEvent, position:Vector3, normal:Vector3, shape_idx:int):
 	pass
 
@@ -124,7 +163,8 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	if target == null:
 		return
 	
-	
+	#last_target_collision_layer = target_collider.collision_layer
+	#clear_collision_layer()
 	
 	var oldpos3 = last_mouse_pos3 #
 	oldpos3 = current_camera.project_ray_normal(old_position)
@@ -142,8 +182,8 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		
 		diff = curpos3 - oldpos3
 		
-		print("**",oldpos3, " -> ", curpos3, " -> ", "diff=",diff)
-		print("  curdot=",curdot)
+		#print("**",oldpos3, " -> ", curpos3, " -> ", "diff=",diff)
+		#print("  curdot=",curdot)
 
 		
 		var res = Vector3.ZERO
@@ -165,7 +205,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 				var rota = target.transform.basis
 				var local_diff = rota.inverse() * diff
 				target.translate(local_diff  * axis * curdot * move_speed)
-			print("  target=", target.name, ",  transformed position",target.position)
+			#print("  target=", target.name, ",  transformed position",target.position)
 		
 	elif transformType == 1: #---rotation
 		var res = Vector3.ZERO
@@ -173,7 +213,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		var diff = curpos3 - oldpos3
 		var sensitivity = rotate_speed
 		
-		print("rotate=", axis, diff)
+		#print("rotate=", axis, diff)
 		if is_global == true:
 			if axis.x == 1:
 				#res.x = -target.rotation.x + relXY * 0.1
@@ -208,12 +248,61 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		
 		#target.transform = target.transform.rotated_local(axis, ) #relXY * 0.01)
 		
-	print(" ")
+	#print(" ")
 	last_mouse_pos3 = curpos3
 
+func unhandled_input(event: InputEvent, hitobject, hitparent):
+	'''
+	Operate children StaticBody3D and an Axis from this(parent) node.
+	'''
+	if !current_camera:
+		return
+	if visible == false:
+		return
+	
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				#---click hold the this axis gizmo
+				pressing_tcgizmo = hitparent
+				is_pressing_leftbutton = event.pressed
+				last_mouse_pos = event.position
+				
+			else:
+				#---release this axis gizmo
+				if !pressing_tcgizmo:
+					return
+				pressing_tcgizmo.change_state_this_axis(event)
+			is_pressing_leftbutton = event.pressed
+	elif  event is InputEventMouseMotion:
+		if !pressing_tcgizmo:
+			return
+		if is_pressing_leftbutton:
+			var mouse_pos = event.position
+			
+			#---directly call own input_event_axis event
+			#   with child property (do not use child node's _input event.
+			# TODO: must change the child node's mesh state 
+			pressing_tcgizmo.change_state_this_axis(event)
+			input_event_axis(event, mouse_pos, last_mouse_pos, Vector3.ZERO, pressing_tcgizmo.axis, pressing_tcgizmo.TransformType, pressing_tcgizmo.is_global)
+			last_mouse_pos = mouse_pos
+			
+func check_collision(from: Vector3, to: Vector3, layer: int) -> Dictionary:
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = from
+	query.to = to
+	query.collision_mask = 1 << (layer - 1)
+	var result:Dictionary = space_state.intersect_ray(query)
+	return result
+	
+func release_event_axis(axis: Vector3):
+	target_collider.collision_layer = last_target_collision_layer
+	print("release=",target_collider.collision_layer)
+	
+	
 func _emit_gizmo_rotate(x, y, z) -> void:
 	gizmo_rotate.emit(x, y, z, is_relative)
-
 
 #=================================================================
 # Vector functions

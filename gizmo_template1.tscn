@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://du13ymfmy3fwf"]
+[gd_scene load_steps=16 format=3 uid="uid://du13ymfmy3fwf"]
 
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
@@ -6,8 +6,38 @@
 [ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_oncui"]
 [ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_wog72"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wducf"]
+height = 0.05
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jl7px"]
+height = 0.05
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_45svu"]
+height = 0.05
+radius = 1.0
+
 [sub_resource type="BoxMesh" id="BoxMesh_aocuc"]
 size = Vector3(0.5, 0.05, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kujpe"]
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hsrfr"]
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x4apt"]
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_10afs"]
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_m1p2h"]
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n5b80"]
+radius = 0.05
 
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
@@ -23,14 +53,21 @@ snap = 1e-06
 use_collision = true
 collision_layer = 2
 collision_mask = 2
-inner_radius = 0.55
-outer_radius = 0.6
+inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 TransformType = 1
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RingY"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingY/StaticBody3D"]
+shape = SubResource("CylinderShape3D_wducf")
 
 [node name="RingX" type="CSGTorus3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
@@ -41,14 +78,21 @@ material_overlay = ExtResource("4_oncui")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
-inner_radius = 0.55
-outer_radius = 0.6
+inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 TransformType = 1
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RingX"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingX/StaticBody3D"]
+shape = SubResource("CylinderShape3D_jl7px")
 
 [node name="RingZ" type="CSGTorus3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -59,8 +103,7 @@ material_overlay = ExtResource("5_wog72")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
-inner_radius = 0.55
-outer_radius = 0.6
+inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
@@ -68,8 +111,16 @@ script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
 TransformType = 1
 
+[node name="StaticBody3D" type="StaticBody3D" parent="RingZ"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingZ/StaticBody3D"]
+shape = SubResource("CylinderShape3D_45svu")
+
 [node name="PlaneXZ" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.762139, 0, 0.735685)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26089, 0, 1.27266)
 layers = 2
 sorting_offset = 999.0
 material_override = ExtResource("2_pcf3q")
@@ -80,8 +131,16 @@ script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 1)
 is_global = true
 
+[node name="StaticBody3D" type="StaticBody3D" parent="PlaneXZ"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneXZ/StaticBody3D"]
+shape = SubResource("BoxShape3D_kujpe")
+
 [node name="PlaneXY" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.797005, 0.676163, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.19424, 1.06304, 0)
 layers = 2
 sorting_offset = 999.0
 material_override = ExtResource("5_wog72")
@@ -92,8 +151,16 @@ script = ExtResource("2_1a8dy")
 axis = Vector3(1, 1, 0)
 is_global = true
 
+[node name="StaticBody3D" type="StaticBody3D" parent="PlaneXY"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneXY/StaticBody3D"]
+shape = SubResource("BoxShape3D_hsrfr")
+
 [node name="PlaneYZ" type="CSGMesh3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.899518, 0.727212)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 1.20078, 1.13981)
 layers = 2
 sorting_offset = 999.0
 material_override = ExtResource("4_oncui")
@@ -103,6 +170,14 @@ mesh = SubResource("BoxMesh_aocuc")
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 1)
 is_global = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlaneYZ"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneYZ/StaticBody3D"]
+shape = SubResource("BoxShape3D_x4apt")
 
 [node name="StickY" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -115,6 +190,14 @@ size = Vector3(0.025, 2, 0.025)
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 1, 0)
 
+[node name="StaticBody3D" type="StaticBody3D" parent="StickY"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StickY/StaticBody3D"]
+shape = SubResource("CylinderShape3D_10afs")
+
 [node name="StickX" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
 layers = 2
@@ -126,6 +209,14 @@ size = Vector3(0.025, 2, 0.025)
 script = ExtResource("2_1a8dy")
 axis = Vector3(1, 0, 0)
 
+[node name="StaticBody3D" type="StaticBody3D" parent="StickX"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StickX/StaticBody3D"]
+shape = SubResource("CylinderShape3D_m1p2h")
+
 [node name="StickZ" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
 layers = 2
@@ -136,6 +227,14 @@ use_collision = true
 size = Vector3(0.025, 2, 0.025)
 script = ExtResource("2_1a8dy")
 axis = Vector3(0, 0, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StickZ"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StickZ/StaticBody3D"]
+shape = SubResource("CylinderShape3D_n5b80")
 
 [connection signal="input_event_axis" from="RingY" to="." method="input_event_axis"]
 [connection signal="input_event_axis" from="RingX" to="." method="input_event_axis"]

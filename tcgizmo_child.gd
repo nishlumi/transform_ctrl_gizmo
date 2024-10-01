@@ -20,6 +20,7 @@ var clickpos: Vector3
 #---fire trigger input event Ring object
 signal input_event_axis(event:InputEvent, position, old_position, clickpos:Vector3, axis: Vector3, operate_type, is_global:bool)
 signal pressing_this_axis(axis: Vector3, is_pressed: bool)
+signal release_this_axis(axis: Vector3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,7 +31,7 @@ func _ready() -> void:
 	is_transformtype = ""
 	
 	var mat = get_node(".") as GeometryInstance3D
-	print(mat.material_override.get_class())
+	print(mat.material_overlay.get_class())
 	#var bmat = mat.material_override.get_flag("no_depth_test")
 	#print(bmat)
 
@@ -44,7 +45,7 @@ func mouse_exited():
 	self.material_override.set("albedo_color",basecolor)
 	is_pressed = false
 
-func _input(event: InputEvent) -> void:
+func input(event: InputEvent) -> void:
 	var tcgpar = get_parent_node_3d()
 	var grandpar = tcgpar.get_parent_node_3d()
 	
@@ -73,7 +74,7 @@ func _input(event: InputEvent) -> void:
 			
 			clickpos = result.position
 			
-			if rcoll.name == name:
+			if rcoll.get_parent_node_3d().name == name:
 				if TransformType == TransformOperateType.Rotate: #---rotation
 					var meshobj = self
 					#print(meshobj)
@@ -86,17 +87,19 @@ func _input(event: InputEvent) -> void:
 					is_pressed = event.pressed
 					old_mousepos = event.position
 			else:
-				self.material_override.set("albedo_color",basecolor)
+				self.material_overlay.set("albedo_color",basecolor)
 				#toggle_otheraxis_visible(self,true)
 				is_pressed = false
 				is_transformtype = ""
+				release_this_axis.emit(axis)
 			
 				
 		else:
-			self.material_override.set("albedo_color",basecolor)
+			self.material_overlay.set("albedo_color",basecolor)
 			toggle_otheraxis_visible(self,true)
 			is_pressed = false
 			is_transformtype = ""
+			release_this_axis.emit(axis)
 	
 	elif (event is InputEventMouseMotion):
 		var mousepos = event.position
@@ -129,18 +132,23 @@ func mainbody(event, meshobj, typestr: String = ""):
 			pressing_this_axis.emit(axis, is_pressed)
 			#---start transform
 			if mouseev.pressed:
-				meshobj.material_override.set("albedo_color",selcolor)
+				meshobj.material_overlay.set("albedo_color",selcolor)
 				toggle_otheraxis_visible(meshobj,false)
 				is_transformtype = typestr
 				print("---start ",typestr)
 				print(name)
 			else:
 				#---end transform
-				meshobj.material_override.set("albedo_color",basecolor)
+				meshobj.material_overlay.set("albedo_color",basecolor)
 				toggle_otheraxis_visible(meshobj,true)
 				is_transformtype = ""
 				print("---end ")
 				
+func change_state_this_axis(event):
+	if TransformType == TransformOperateType.Rotate:
+		mainbody(event,self,"rotation")
+	elif TransformType == TransformOperateType.Translate:
+		mainbody(event,self,"translate")
 
 func on_pressing_other_axis(otheraxis: Vector3, is_pressed: bool):
 	if otheraxis != axis:
