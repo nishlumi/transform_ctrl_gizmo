@@ -13,6 +13,7 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 @export var is_rotation: bool
 #@export var is_scale: bool
 @export var is_selfhost: bool = false
+@export var is_global: bool = false
 @export var target: Node3D = null
 @export var target_collider: CollisionObject3D = null
 @export var current_camera: Camera3D
@@ -55,10 +56,21 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if !is_selfhost:
 		if target != null:
-			position.x = target.position.x + target_receiver.show_offset.x + show_offset.x
-			position.y = target.position.y + target_receiver.show_offset.y + show_offset.y
-			position.z = target.position.z + target_receiver.show_offset.z + show_offset.z
-			rotation = target.rotation
+			if is_global:
+				position.x = target.position.x + target_receiver.show_offset.x + show_offset.x
+				position.y = target.position.y + target_receiver.show_offset.y + show_offset.y
+				position.z = target.position.z + target_receiver.show_offset.z + show_offset.z
+				if is_pressing_leftbutton:
+					#rotation = target.rotation
+					rotation_degrees = Vector3.ZERO
+				else:
+					#---is release left button, recover gizmo rotation  to ZERO base.
+					rotation_degrees = Vector3.ZERO
+			else:
+				position.x = target.position.x + target_receiver.show_offset.x + show_offset.x
+				position.y = target.position.y + target_receiver.show_offset.y + show_offset.y
+				position.z = target.position.z + target_receiver.show_offset.z + show_offset.z
+				rotation = target.rotation
 			
 			#---change this gizmo size by distance to main camera
 			var glodist = current_camera.global_position - global_position
@@ -154,6 +166,7 @@ func setup_is_global_flag(flag: bool):
 	for a in arr:
 		var tcg = get_node(a) as TCGizmoChild
 		tcg.is_global =  flag
+	is_global = flag
 
 func input_event(camera:Node, event:InputEvent, position:Vector3, normal:Vector3, shape_idx:int):
 	pass
@@ -179,22 +192,13 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	
 	if transformType == 0: #---translate
 		var diff:Vector3
-		
 		diff = curpos3 - oldpos3
-		
-		#print("**",oldpos3, " -> ", curpos3, " -> ", "diff=",diff)
-		#print("  curdot=",curdot)
-
 		
 		var res = Vector3.ZERO
 		var relXY = 0
-		
 		var istran = true
 		
 		res = diff * axis * curdot * move_speed
-		
-
-		
 		
 		#print("  translate",res)
 		if istran == true:
@@ -217,15 +221,15 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		if is_global == true:
 			if axis.x == 1:
 				#res.x = -target.rotation.x + relXY * 0.1
-				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.x * sensitivity))
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.x * sensitivity))
 				print(deg_to_rad(diff.x * sensitivity))
 			if axis.y == 1:
 				#res.y = -target.rotation.y + relXY * 0.1
-				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.y * sensitivity))
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.y * sensitivity))
 				print(deg_to_rad(diff.y * sensitivity))
 			if axis.z == 1:
 				#res.z = target.rotation.z + relXY * 0.1
-				target.transform = target.transform.rotated(axis, deg_to_rad(-diff.z * sensitivity))
+				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.z * sensitivity))
 				print(deg_to_rad(diff.z * sensitivity))
 		else:
 			var rota = target.transform.basis

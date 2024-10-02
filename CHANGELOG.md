@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2024/10/02
+
+* Gizmo operations can now be switched between global and local space.
+
 ## 2024/10/01
 
 * Modified so that the gizmo can be operated even if the target Node3D and the collision of the transform gizmo overlap.

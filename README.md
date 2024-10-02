@@ -85,6 +85,9 @@ Camera node to reference. If not specified, the parent node will be automaticall
 
 Start detection.
 
+**is_global**
+
+Switches the operating space between global and local.
 
 
 ## Postscript
