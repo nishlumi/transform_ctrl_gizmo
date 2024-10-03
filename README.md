@@ -67,6 +67,31 @@ Use futurely.
 
 You can shift the display position of gizmo.
 
+**Enable Translate**
+
+Enables translation.
+
+**Enable Rotate**
+
+Enables rotation.
+
+**Enable Scale**
+
+Enables scale.
+
+**Is X**
+
+Enables operations on the X axis.
+
+**Is Y**
+
+Enables operations on the Y axis.
+
+**Is Z**
+
+Enables operations on the Z axis.
+
+
 ### TransformCtrlGizmoServer
 
 **Controller**
@@ -81,14 +106,25 @@ The node detected by clicking.
 
 Camera node to reference. If not specified, the parent node will be automatically set as the camera node during initialization.
 
-**Enable Detect**
+**Child Collision Layer**
 
-Start detection.
+Sets the collision layer for the entire gizmo. Do not use this layer for other nodes.
 
-**is_global**
+**Is Global**
 
-Switches the operating space between global and local.
+Switches the operation space between global and local.
 
+**Move Speed**
+
+Sets the movement speed.
+
+**Rotate Speed**
+
+Sets the rotation speed.
+
+**Scale Speed**
+
+Sets the scale speed.
 
 ## Postscript
 

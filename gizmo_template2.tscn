@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtihxutn4v713"]
+[gd_scene load_steps=19 format=3 uid="uid://dtihxutn4v713"]
 
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
 [ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
 [ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="2_vo4iw"]
 [ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_g53tm"]
 [ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_e00kd"]
+[ext_resource type="Material" uid="uid://b7s70po4a1wh" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_white.tres" id="6_cq7ev"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_pi8ko"]
 height = 0.05
@@ -41,6 +42,10 @@ radius = 0.05
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_gin1q"]
 height = 1.0
 radius = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_il6ta"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dkcua"]
 
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
@@ -255,6 +260,64 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StickZ/StaticBody3D"]
 shape = SubResource("CylinderShape3D_gin1q")
 
+[node name="ScaleCenter" type="CSGBox3D" parent="."]
+transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
+material_overlay = ExtResource("6_cq7ev")
+material = ExtResource("6_cq7ev")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 1, 1)
+TransformType = 2
+basecolor = Color(1, 1, 1, 0.556863)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ScaleCenter"]
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScaleCenter/StaticBody3D"]
+shape = SubResource("BoxShape3D_il6ta")
+
+[node name="BoxX" type="CSGBox3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1.09024, 0, 0)
+material_overlay = ExtResource("4_g53tm")
+script = ExtResource("2_1a8dy")
+axis = Vector3(1, 0, 0)
+TransformType = 2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxX"]
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxX/StaticBody3D"]
+shape = SubResource("BoxShape3D_dkcua")
+
+[node name="BoxY" type="CSGBox3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.06248, 0)
+material_overlay = ExtResource("2_vo4iw")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 1, 0)
+TransformType = 2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxY"]
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxY/StaticBody3D"]
+shape = SubResource("BoxShape3D_dkcua")
+
+[node name="BoxZ" type="CSGBox3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 1.083)
+material_overlay = ExtResource("5_e00kd")
+script = ExtResource("2_1a8dy")
+axis = Vector3(0, 0, 1)
+TransformType = 2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxZ"]
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxZ/StaticBody3D"]
+shape = SubResource("BoxShape3D_dkcua")
+
 [connection signal="release_this_axis" from="RingY" to="." method="release_event_axis"]
 [connection signal="release_this_axis" from="RingX" to="." method="release_event_axis"]
 [connection signal="release_this_axis" from="RingZ" to="." method="release_event_axis"]
@@ -264,3 +327,7 @@ shape = SubResource("CylinderShape3D_gin1q")
 [connection signal="release_this_axis" from="StickY" to="." method="release_event_axis"]
 [connection signal="release_this_axis" from="StickX" to="." method="release_event_axis"]
 [connection signal="release_this_axis" from="StickZ" to="." method="release_event_axis"]
+[connection signal="release_this_axis" from="ScaleCenter" to="." method="release_event_axis"]
+[connection signal="release_this_axis" from="BoxX" to="." method="release_event_axis"]
+[connection signal="release_this_axis" from="BoxY" to="." method="release_event_axis"]
+[connection signal="release_this_axis" from="BoxZ" to="." method="release_event_axis"]

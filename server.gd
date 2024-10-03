@@ -20,14 +20,14 @@ var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.
 
 @export var move_speed: float = 2
 @export var rotate_speed: float = 1000
-@export var scale_speed: float = 10
+@export var scale_speed: float = 0.05
 
 #---Gizmo mode
 enum TCGizmoMode {FindTarget = 0, MoveTarget = 1, MoveWaitTarget = 2}
 @onready var gizmode: TCGizmoMode = TCGizmoMode.FindTarget;
 var bk_move_speed: float = 2
 var bk_rotate_speed: float = 1000
-var bk_scale_speed: float = 10
+var bk_scale_speed: float = 0.05
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +35,7 @@ func _ready() -> void:
 		controller = gizmo_template.instantiate()
 		controller.visible = false
 		controller.current_camera = MainCamera
+		
 		var cnt = get_tree().root.get_child_count()
 		get_tree().root.get_child(cnt-1).add_child.call_deferred(controller)
 	
@@ -151,7 +152,7 @@ func check_TCGizmo(collparent, collider) -> bool:
 	var ishit_selfhost = 0
 	var ishit_receiver = 0
 	var ccld = collparent.get_children()
-	var objreceiver = null
+	var objreceiver: TransformCtrlGizmoReceiver = null
 	for cc in ccld:
 		if cc.name == "TransformCtrlGizmoSelfHost":
 			#---node has SelfHost version ?
@@ -185,7 +186,11 @@ func check_TCGizmo(collparent, collider) -> bool:
 			controller.target_receiver = objreceiver
 			controller.visible = true
 			controller.setup_is_global_flag(is_global)
-			
+			controller.setup_axis_visible(objreceiver.is_x, objreceiver.is_y, objreceiver.is_z)
+			controller.setup_transform_visible(objreceiver.enable_translate, objreceiver.enable_rotate, objreceiver.enable_scale)
+			controller.move_speed = move_speed
+			controller.rotate_speed = rotate_speed
+			controller.scale_speed = scale_speed
 			gizmode = TCGizmoMode.MoveWaitTarget
 			ret = true
 	
@@ -205,8 +210,3 @@ func checkCurrentTargetSameAs(hitobjet: Node3D) -> bool:
 		return true
 	else:
 		return false
-
-func detect_mousepos_object(position: Vector2):
-	var scene_pos = MainCamera.project_ray_origin(position)
-	
-	var wpos = MainCamera

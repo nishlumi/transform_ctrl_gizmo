@@ -1,9 +1,10 @@
 class_name TCGizmoChild
 extends Node3D
 
+enum TransformOperateType{Translate = 0, Rotate = 1, Scale = 2}
+
 @export var axis: Vector3
 @export var is_global: bool = false
-enum TransformOperateType{Translate = 0, Rotate = 1, Scale = 2}
 @export var TransformType: TransformOperateType
 @export var basecolor: Color
 @export var selcolor: Color
@@ -40,10 +41,10 @@ func _process(delta: float) -> void:
 	pressing_this_axis.emit(axis, false)
 	pass
 
-func mouse_exited():
-	#var ringnode = get_parent_node_3d()
-	self.material_override.set("albedo_color",basecolor)
-	is_pressed = false
+#func mouse_exited():
+	##var ringnode = get_parent_node_3d()
+	#self.material_override.set("albedo_color",basecolor)
+	#is_pressed = false
 
 func input(event: InputEvent) -> void:
 	var tcgpar = get_parent_node_3d()
@@ -157,11 +158,36 @@ func on_pressing_other_axis(otheraxis: Vector3, is_pressed: bool):
 
 func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 	var nametype = meobj.name.substr(0,meobj.name.length())
-	var parobj = meobj.get_parent_node_3d()
+	#---namely: TCGizmo node.
+	var parobj: TCGizmoTop = meobj.get_parent_node_3d()
+	#---namely: RingY, PlaneXY, etc...
 	var cs = parobj.get_children()
 	
 	for obj in cs:
-		if obj.TransformType == TransformType:
-			obj.visible = true
-		else:
-			obj.visible = flag
+		var ishit = true
+		#---each transform type
+		if (parobj.is_translation == false):
+			if (obj.TransformType == TransformOperateType.Translate):
+				ishit = false
+		if (parobj.is_rotation == false):
+			if (obj.TransformType == TransformOperateType.Rotate):
+				ishit = false
+		if (parobj.is_scaling == false):
+			if (obj.TransformType == TransformOperateType.Scale):
+				ishit = false
+		
+		#---each axis
+		if (parobj.is_x == false) or (parobj.is_y == false) or (parobj.is_z == false):
+			if (obj.TransformType == TransformOperateType.Translate):
+				ishit = false
+			if (obj.TransformType == TransformOperateType.Rotate):
+				ishit = false
+			if (obj.TransformType == TransformOperateType.Scale):
+				ishit = false
+			
+					
+		if ishit:
+			if obj.TransformType == TransformType:
+				obj.visible = true
+			else:
+				obj.visible = flag

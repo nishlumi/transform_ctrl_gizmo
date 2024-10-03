@@ -1,6 +1,8 @@
 class_name TCGizmoTop
 extends Node3D
 
+enum TransformOperateType{Translate = 0, Rotate = 1, Scale = 2}
+
 
 signal gizmo_rotate(x:float, y:float, z:float, is_relative:bool)
 signal gizmo_translate(x:float, y:float, z:float, is_relative:bool)
@@ -11,9 +13,13 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 @export var is_relative: bool = false
 @export var is_translation: bool
 @export var is_rotation: bool
-#@export var is_scale: bool
+@export var is_scaling: bool
 @export var is_selfhost: bool = false
 @export var is_global: bool = false
+@export var is_x: bool = true
+@export var is_y: bool = true
+@export var is_z: bool = true
+
 @export var target: Node3D = null
 @export var target_collider: CollisionObject3D = null
 @export var current_camera: Camera3D
@@ -22,13 +28,14 @@ signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
 @export var target_receiver: TransformCtrlGizmoReceiver
 @export var move_speed: float = 2
 @export var rotate_speed: float = 1000
-@export var scale_speed: float = 10
+@export var scale_speed: float = 0.05
 
 var savemat = []
 
 var last_mouse_pos = Vector2()
 var last_mouse_pos3 = Vector3()
 var last_target_collision_layer: int
+var last_posdiff_length: float = 0
 
 var gizmo_inner_collision_layer: int
 var is_pressing_leftbutton: bool
@@ -43,7 +50,7 @@ func _ready() -> void:
 	#	target = get_parent_node_3d()
 		
 	#current_camera = %MainCamera
-	setup_meshObject()
+	#setup_meshObject()
 
 func _exit_tree() -> void:
 	for m in savemat:
@@ -86,11 +93,12 @@ func _physics_process(delta: float) -> void:
 			scale.y = basesize
 			scale.z = basesize
 			
+			
 				
 	
 func setup(cam:Camera3D):
 	current_camera = cam
-	setup_meshObject()
+	#setup_meshObject()
 
 
 func setup_meshObject():
@@ -144,7 +152,11 @@ func setup_child_collision_layer(layer: int):
 		"PlaneYZ/StaticBody3D",
 		"StickY/StaticBody3D",
 		"StickX/StaticBody3D",
-		"StickZ/StaticBody3D"
+		"StickZ/StaticBody3D",
+		"ScaleCenter/StaticBody3D",
+		"BoxX/StaticBody3D",
+		"BoxY/StaticBody3D",
+		"BoxZ/StaticBody3D"
 	]
 	for a in arr:
 		var staticbody = get_node(a) as StaticBody3D
@@ -168,6 +180,66 @@ func setup_is_global_flag(flag: bool):
 		tcg.is_global =  flag
 	is_global = flag
 
+func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool):
+	var arr_translate = [
+		"PlaneXZ",
+		"PlaneXY",
+		"PlaneYZ",
+		"StickY",
+		"StickX",
+		"StickZ"
+	]
+	var arr_rotate = [
+		"RingY",
+		"RingX",
+		"RingZ"
+	]
+	var arr_scale = [
+		"ScaleCenter",
+		"BoxX",
+		"BoxY",
+		"BoxZ"
+	]
+	for a in arr_translate:
+		var tcg = get_node(a) as TCGizmoChild
+		tcg.visible = is_translate
+		if ((a == "PlaneXZ") or (a == "PlaneXY") or (a == "StickX")):
+			if is_x == false:
+				tcg.visible = is_x
+		if  ((a == "PlaneXY") or (a == "PlaneYZ") or (a == "StickY")):
+			if is_y == false:
+				tcg.visible = is_y
+		if  ((a == "PlaneXZ") or (a == "PlaneYZ") or (a == "StickZ")):
+			if is_z == false:
+				tcg.visible = is_z
+	for a in arr_rotate:
+		var tcg = get_node(a) as TCGizmoChild
+		tcg.visible = is_rotate
+		if  ((a == "RingX") and (is_x == false)):
+			tcg.visible = is_x
+		if  ((a == "RingY") and (is_y == false)):
+			tcg.visible = is_y
+		if  ((a == "RingZ") and (is_z == false)):
+			tcg.visible = is_z
+	for a in arr_scale:
+		var tcg = get_node(a) as TCGizmoChild
+		tcg.visible = is_scale
+		if  ((a == "BoxX") and (is_x == false)):
+			tcg.visible = is_x
+		if  ((a == "BoxY") and (is_y == false)):
+			tcg.visible = is_y
+		if ((a == "BoxZ") and (is_z == false)):
+			tcg.visible = is_z
+
+	is_translation = is_translate
+	is_rotation = is_rotate
+	is_scaling = is_scale
+
+func setup_axis_visible(x: bool, y: bool, z: bool):
+	is_x = x
+	is_y = y
+	is_z = z
+	
 func input_event(camera:Node, event:InputEvent, position:Vector3, normal:Vector3, shape_idx:int):
 	pass
 
@@ -179,18 +251,19 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	#last_target_collision_layer = target_collider.collision_layer
 	#clear_collision_layer()
 	
-	var oldpos3 = last_mouse_pos3 #
+	var oldpos3: Vector3 = last_mouse_pos3 #
 	oldpos3 = current_camera.project_ray_normal(old_position)
-	var curpos3 = current_camera.project_ray_normal(cur_position) #event.position)
+	var curpos3: Vector3 = current_camera.project_ray_normal(cur_position) #event.position)
 	#var new_mouse_position = lineplane_intersect(oldpos3, curpos3, clickpos, axis)
 	var curdot = oldpos3.dot(curpos3)
-	
+	var posdiff_length = oldpos3.distance_to(curpos3)
+	print("distance=",posdiff_length,"---->",last_posdiff_length)
 	
 	var EnumTrans: Array = ["translate","rotate","scale"]
 	
 	#print("    click=",clickpos, " <-> curpos=", curpos3)
 	
-	if transformType == 0: #---translate
+	if transformType == TransformOperateType.Translate: #---translate
 		var diff:Vector3
 		diff = curpos3 - oldpos3
 		
@@ -208,10 +281,15 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			else:
 				var rota = target.transform.basis
 				var local_diff = rota.inverse() * diff
+				print("local_diff=",local_diff)
+				print("    axis=",axis)
+				print("    curdot=",curdot)
+				print("    result=",local_diff  * axis * curdot * move_speed)
+				
 				target.translate(local_diff  * axis * curdot * move_speed)
 			#print("  target=", target.name, ",  transformed position",target.position)
 		
-	elif transformType == 1: #---rotation
+	elif transformType == TransformOperateType.Rotate: #---rotation
 		var res = Vector3.ZERO
 		var relXY = event.relative.x + event.relative.y
 		var diff = curpos3 - oldpos3
@@ -219,39 +297,72 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		
 		#print("rotate=", axis, diff)
 		if is_global == true:
+			var tmprot = target.rotation_degrees
 			if axis.x == 1:
 				#res.x = -target.rotation.x + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.x * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.x * sensitivity))
+				tmprot.x = tmprot.x + (-diff.x * sensitivity)
 				print(deg_to_rad(diff.x * sensitivity))
 			if axis.y == 1:
 				#res.y = -target.rotation.y + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.y * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.y * sensitivity))
+				tmprot.y = tmprot.y + (-diff.y * sensitivity)
 				print(deg_to_rad(diff.y * sensitivity))
 			if axis.z == 1:
 				#res.z = target.rotation.z + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.z * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-diff.z * sensitivity))
+				tmprot.z = tmprot.z + (-diff.z * sensitivity)
 				print(deg_to_rad(diff.z * sensitivity))
+			target.rotation_degrees = tmprot
 		else:
 			var rota = target.transform.basis
 			var local_diff = rota.inverse() * diff
+			var tmprot = target.rotation_degrees
 			if axis.x == 1:
 				#res.x = -target.rotation.x + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.x * sensitivity))
-				print(deg_to_rad(local_diff.x * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.x * sensitivity))
+				tmprot.x = tmprot.x + (-local_diff.x * sensitivity)
+				print((local_diff.x * sensitivity))
 			if axis.y == 1:
 				#res.y = -target.rotation.y + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.y * sensitivity))
-				print(deg_to_rad(local_diff.y * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.y * sensitivity))
+				tmprot.y = tmprot.y + (-local_diff.y * sensitivity)
+				print((local_diff.y * sensitivity))
 			if axis.z == 1:
 				#res.z = target.rotation.z + relXY * 0.1
-				target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.z * sensitivity))
-				print(deg_to_rad(local_diff.z * sensitivity))
+				#target.transform = target.transform.rotated_local(axis, deg_to_rad(-local_diff.z * sensitivity))
+				tmprot.z = tmprot.z + (-local_diff.z * sensitivity)
+				print((local_diff.z * sensitivity))
+			target.rotation_degrees = tmprot
+	elif transformType == TransformOperateType.Scale: #---scale
+		var relXY = event.relative.x + event.relative.y
+		var diff = curpos3 - oldpos3
 		
+		print("relXY=",relXY)
+		print("diff=",diff)
+		print("curdot=",curdot)
+		var rate = 0
+		if relXY > 0:
+			rate = 1
+		elif relXY < 0:
+			rate = -1
 		
+		var tmpscale: Vector3 = target.scale
 		
+		if axis.x == 1:
+			tmpscale.x = tmpscale.x + scale_speed * rate 
+		if axis.y == 1:
+			tmpscale.y = tmpscale.y + scale_speed * rate 
+		if axis.z == 1:
+			tmpscale.z = tmpscale.z + scale_speed * rate 
+		
+		print(tmpscale)
+		target.scale = tmpscale
 		
 		#target.transform = target.transform.rotated_local(axis, ) #relXY * 0.01)
 		
+		
+	last_posdiff_length = posdiff_length
 	#print(" ")
 	last_mouse_pos3 = curpos3
 
@@ -304,9 +415,6 @@ func release_event_axis(axis: Vector3):
 	target_collider.collision_layer = last_target_collision_layer
 	print("release=",target_collider.collision_layer)
 	
-	
-func _emit_gizmo_rotate(x, y, z) -> void:
-	gizmo_rotate.emit(x, y, z, is_relative)
 
 #=================================================================
 # Vector functions

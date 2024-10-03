@@ -11,7 +11,9 @@ extends Node3D
 @export var enable_scale: bool = true
 
 #---this node access which axis?
-@export var is_x: bool 
+@export var is_x: bool = true
+@export var is_y: bool = true
+@export var is_z: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

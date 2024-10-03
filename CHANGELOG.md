@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2024/10/03
+
+* Implemented scale operation.
+* Changed rotation processing because changing scale causes strange rotation.
+* Implemented to turn Translate/Rotate/Scale on/off for each TransformCtrlGizmoReceiver.
+* Implemented to turn X/Y/Z axis display on/off.
+
 ## 2024/10/02
 
 * Gizmo operations can now be switched between global and local space.

@@ -67,6 +67,32 @@ GodotEngineではFBXなどの外部の3Dオブジェクトとの表示の順序�
 
 gizmoの表示位置をずらすことができます。
 
+
+**Enable Translate**
+
+移動を有効にします。
+
+**Enable Rotate**
+
+回転を有効にします。
+
+**Enable Scale**
+
+スケールを有効にします。
+
+**Is X**
+
+X軸の各操作を有効にします。
+
+**Is Y**
+
+Y軸の各操作を有効にします。
+
+**Is Z**
+
+Z軸の各操作を有効にします。
+
+
 ### TransformCtrlGizmoServer
 
 **Controller**
@@ -85,9 +111,25 @@ gizmoの表示位置をずらすことができます。
 
 検出を開始します。
 
-**is_global**
+**Child Collision Layer**
+
+ギズモ全体のコリジョンレイヤーを設定します。他のノードでは使わないレイヤーにしてください。
+
+**Is Global**
 
 操作空間をグローバル・ローカルどちらかに切り替えます。
+
+**Move Speed**
+
+移動の速度を設定します。
+
+**Rotate Speed**
+
+回転の速度を設定します。
+
+**Scale Speed**
+
+スケールの速度を設定します。
 
 
 
