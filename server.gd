@@ -2,9 +2,13 @@ class_name TransformCtrlGizmoServer
 extends Node3D
 
 #---if you want to change tscn, change .tscn name.
-var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
+#var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
+#var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_buttonform_template1.tscn")
 #var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template1.tscn")
+var gizmo_template = null
+const gizmo_template_path: String = "res://addons/transform_ctrl_gizmo/"
 
+@export_enum("gizmo_template1","gizmo_template2","gizmo_buttonform_template1") var gizmo_template_name: String = "gizmo_template2"
 #---Gizmo tscn
 @export var controller: TCGizmoTop
 #---target node to operate
@@ -31,6 +35,8 @@ var bk_scale_speed: float = 0.05
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var templatepath = gizmo_template_path + gizmo_template_name + ".tscn"
+	gizmo_template = load(templatepath)
 	if enable_detect == true:
 		controller = gizmo_template.instantiate()
 		controller.visible = false
@@ -102,7 +108,8 @@ func _input(event: InputEvent) -> void:
 						if checkCurrentTargetSameAs(collparent):
 							#---if waiting object to move by gizmo ?
 							print("same objet hit...")
-							ishit_finalcheck = false
+							if controller.visible == true:
+								ishit_finalcheck = false
 					
 					#---check parent of hit object has TransformCtrlGizmoReceiver ?
 					if check_TCGizmo(collparent, rcoll):
@@ -127,7 +134,7 @@ func _input(event: InputEvent) -> void:
 						var scndcollparent = scndrcoll.get_parent_node_3d()
 						print(scndrcoll.name, "<--", scndcollparent.name)
 						#---check already shown gizmo. wheather it click the gizmo?
-						if scndcollparent is TCGizmoChild:
+						if (scndcollparent is TCGizmoChild) or (scndcollparent is TCGizmoBtnFormChild):
 							#---that object is really target ???
 							print("TCGizmoChild is active!")
 							controller.unhandled_input(event,scndrcoll, scndcollparent)
@@ -135,8 +142,8 @@ func _input(event: InputEvent) -> void:
 							return
 					else:
 						#---1st hit object is already hitted object (no operated gizmo)
-						controller.target = null
 						controller.visible = false
+						controller.target = null
 						return
 			else:
 				controller.unhandled_input(event,null,null)

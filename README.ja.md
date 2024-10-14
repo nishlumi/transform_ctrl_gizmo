@@ -95,6 +95,14 @@ Z軸の各操作を有効にします。
 
 ### TransformCtrlGizmoServer
 
+**Gizmo Template**
+
+使用するギズモのテンプレート名を選択します。
+
+* gizmo_template1 - 一般的なギズモの図形です。
+* gizmo_template2 - 現在テストしている新しい図形です。
+* gizmo_buttonform_template1 - 操作方法を一新したまったく新しい図形です。
+
 **Controller**
 
 内部シーン `TCGizmoTop` です。自動的に生成されます。

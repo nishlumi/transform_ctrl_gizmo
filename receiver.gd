@@ -8,7 +8,7 @@ extends Node3D
 #---this node execute transform?
 @export var enable_translate: bool = true
 @export var enable_rotate: bool = true
-@export var enable_scale: bool = true
+@export var enable_scale: bool = false
 
 #---this node access which axis?
 @export var is_x: bool = true
