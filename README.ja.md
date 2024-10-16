@@ -102,6 +102,7 @@ Z軸の各操作を有効にします。
 * gizmo_template1 - 一般的なギズモの図形です。
 * gizmo_template2 - 現在テストしている新しい図形です。
 * gizmo_buttonform_template1 - 操作方法を一新したまったく新しい図形です。
+* gizmo_buttonform_template2 - 操作方法を一新したまったく新しい図形です。
 
 **Controller**
 

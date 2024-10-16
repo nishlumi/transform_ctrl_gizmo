@@ -13,6 +13,7 @@ func _process(delta: float) -> void:
 	pass
 
 func setup_child_collision_layer(layer: int):
+	"""
 	var arr = [
 		"PosXRight/StaticBody3D",
 		"PosXLeft/StaticBody3D",
@@ -24,6 +25,7 @@ func setup_child_collision_layer(layer: int):
 		"RingY/StaticBody3D",
 		"RingZ/StaticBody3D"
 	]
+	"""
 	var children = get_children()
 	for a: TCGizmoBtnFormChild in children:
 		var staticbody = a.get_node("StaticBody3D") as StaticBody3D
@@ -31,6 +33,7 @@ func setup_child_collision_layer(layer: int):
 	gizmo_inner_collision_layer = layer
 	
 func setup_is_global_flag(flag: bool):
+	"""
 	var arr = [
 		"PosXRight",
 		"PosXLeft",
@@ -42,6 +45,7 @@ func setup_is_global_flag(flag: bool):
 		"RingY",
 		"RingZ"
 	]
+	"""
 	var children = get_children()
 	for tcg: TCGizmoBtnFormChild in children:
 		#var tcg = get_node(a) as TCGizmoChild
@@ -72,19 +76,19 @@ func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool
 					tcg.visible = is_z
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Rotate:
 			tcg.visible = is_rotate
-			if  ((tcg.name == "RingX") and (is_x == false)):
+			if  ((tcg.axis.x != 0) and (is_x == false)):
 				tcg.visible = is_x
-			if  ((tcg.name == "RingY") and (is_y == false)):
+			if  ((tcg.axis.y != 0) and (is_y == false)):
 				tcg.visible = is_y
-			if  ((tcg.name == "RingZ") and (is_z == false)):
+			if  ((tcg.axis.z != 0) and (is_z == false)):
 				tcg.visible = is_z
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Scale:
 			tcg.visible = is_scale
-			if  ((tcg.name == "BoxX") and (is_x == false)):
+			if  ((tcg.axis.x != 0) and (is_x == false)):
 				tcg.visible = is_x
-			if  ((tcg.name == "BoxY") and (is_y == false)):
+			if  ((tcg.axis.y != 0) and (is_y == false)):
 				tcg.visible = is_y
-			if ((tcg.name == "BoxZ") and (is_z == false)):
+			if ((tcg.axis.z != 0) and (is_z == false)):
 				tcg.visible = is_z
 	
 	is_translation = is_translate

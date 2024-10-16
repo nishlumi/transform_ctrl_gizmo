@@ -8,7 +8,7 @@ extends Node3D
 var gizmo_template = null
 const gizmo_template_path: String = "res://addons/transform_ctrl_gizmo/"
 
-@export_enum("gizmo_template1","gizmo_template2","gizmo_buttonform_template1") var gizmo_template_name: String = "gizmo_template2"
+@export_enum("gizmo_template1","gizmo_template2","gizmo_buttonform_template1","gizmo_buttonform_template2") var gizmo_template_name: String = "gizmo_template2"
 #---Gizmo tscn
 @export var controller: TCGizmoTop
 #---target node to operate

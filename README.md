@@ -101,6 +101,7 @@ Select the name of the gizmo template you want to use.
 * gizmo_template1 - A general gizmo shape.
 * gizmo_template2 - A new shape we are currently testing.
 * gizmo_buttonform_template1 - A completely new shape with a completely new way to operate.
+* gizmo_buttonform_template2 - A completely new shape with a completely new way to operate.
 
 **Controller**
 

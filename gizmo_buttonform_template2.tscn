@@ -1,0 +1,855 @@
+[gd_scene load_steps=17 format=3 uid="uid://c16sfcawlrgfg"]
+
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_main.gd" id="1_k0sgd"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_child.gd" id="2_pcjjg"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="3_lonf2"]
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_d4ecl"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_uaiwx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0lv7t"]
+size = Vector3(0.2, 0.05, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hnm5e"]
+size = Vector3(0.1, 0.05, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fxnq6"]
+size = Vector3(0.2, 0.05, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lt7uc"]
+size = Vector3(0.05, 0.2, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18qk4"]
+size = Vector3(0.05, 0.1, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssv3x"]
+size = Vector3(0.05, 0.2, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ddjg"]
+size = Vector3(0.05, 0.05, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lj187"]
+size = Vector3(0.05, 0.05, 0.1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_drnjs"]
+height = 0.05
+radius = 0.3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_d7vnf"]
+height = 0.05
+radius = 0.3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dlswh"]
+height = 0.05
+radius = 0.3
+
+[node name="GizmoButtonformTemplate2" type="Node3D"]
+script = ExtResource("1_k0sgd")
+
+[node name="PosXRight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, 0)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXRight"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.2, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXRight"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXRight/StaticBody3D"]
+shape = SubResource("BoxShape3D_0lv7t")
+
+[node name="PosX07Y00Z03" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.5, 0, 0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, 0.5)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y00Z03"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y00Z03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX07Y00Z03/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosX05Y00Z05" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.419706, 0, 0.419706)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, 1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y00Z05"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y00Z05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y00Z05/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosX03Y00Z07" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0.25, 0, 0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0.5, 0, 1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y00Z07"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y00Z07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX03Y00Z07/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosX07Y00Zm03" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.5, 0, -0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, -0.5)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y00Zm03"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y00Zm03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX07Y00Zm03/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosX05Y00Zm05" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.42, 0, -0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, -1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y00Zm05"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y00Zm05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y00Zm05/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosX03Y00Zm07" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 0.25, 0, -0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0.5, 0, -1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y00Zm07"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y00Zm07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX03Y00Zm07/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0, 0)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXLeft"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.2, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXLeft"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXLeft/StaticBody3D"]
+shape = SubResource("BoxShape3D_fxnq6")
+
+[node name="PosXm07Y00Z03" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.5, 0, 0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0, 0.5)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y00Z03"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y00Z03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm07Y00Z03/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXm05Y00Z05" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.419584, 0, 0.419584)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0, 1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y00Z05"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y00Z05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y00Z05/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXm03Y00Z07" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -0.25, 0, 0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-0.5, 0, 1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y00Z07"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y00Z07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm03Y00Z07/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXm07Y00Zm03" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.5, 0, -0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0, -0.5)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y00Zm03"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y00Zm03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm07Y00Zm03/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXm05Y00Zm05" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -0.42, 0, -0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0, -1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y00Zm05"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y00Zm05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y00Zm05/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosXm03Y00Zm07" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -0.25, 0, -0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-0.5, 0, -1)
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y00Zm07"]
+material_overlay = ExtResource("3_lonf2")
+size = Vector3(0.1, 0.05, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y00Zm07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm03Y00Zm07/StaticBody3D"]
+shape = SubResource("BoxShape3D_hnm5e")
+
+[node name="PosYTop" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosYTop"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.2, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosYTop"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosYTop/StaticBody3D"]
+shape = SubResource("BoxShape3D_lt7uc")
+
+[node name="PosXm03Y07Z00" type="Node3D" parent="."]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -0.25, 0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-0.5, 1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y07Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y07Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm03Y07Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosXm05Y05Z00" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.42, 0.42, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y05Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y05Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y05Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosXm07Y03Z00" type="Node3D" parent="."]
+transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, -0.5, 0.25, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, 0.5, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y03Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y03Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm07Y03Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX03Y07Z00" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.25, 0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0.5, 1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y07Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y07Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX03Y07Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX05Y05Z00" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.42, 0.42, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y05Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y05Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y05Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX07Y03Z00" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.5, 0.25, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0.5, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y03Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y03Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX07Y03Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosYBottom" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosYBottom"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.2, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosYBottom"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosYBottom/StaticBody3D"]
+shape = SubResource("BoxShape3D_ssv3x")
+
+[node name="PosXm03Ym07Z00" type="Node3D" parent="."]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -0.25, -0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-0.5, -1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Ym07Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Ym07Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm03Ym07Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosXm05Ym05Z00" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.42, -0.42, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, -1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Ym05Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Ym05Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Ym05Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosXm07Ym03Z00" type="Node3D" parent="."]
+transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.5, -0.25, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(-1, -0.5, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Ym03Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Ym03Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm07Ym03Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX03Ym07Z00" type="Node3D" parent="."]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.25, -0.5, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0.5, -1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX03Ym07Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX03Ym07Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX03Ym07Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX05Ym05Z00" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.42, -0.42, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, -1, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX05Ym05Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX05Ym05Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Ym05Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosX07Ym03Z00" type="Node3D" parent="."]
+transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, 0.5, -0.25, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, -0.5, 0)
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX07Ym03Z00"]
+material_overlay = ExtResource("4_d4ecl")
+size = Vector3(0.05, 0.1, 0.05)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX07Ym03Z00"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX07Ym03Z00/StaticBody3D"]
+shape = SubResource("BoxShape3D_18qk4")
+
+[node name="PosZForward" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 0, 1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosZForward"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.2)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosZForward"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosZForward/StaticBody3D"]
+shape = SubResource("BoxShape3D_8ddjg")
+
+[node name="PosX00Y03Z07" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.25, 0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 0.5, 1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y03Z07"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y03Z07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y03Z07/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Y05Z05" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.42, 0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, 1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y05Z05"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y05Z05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y05Z05/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Y07Z03" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0.5, 0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, 0.5)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y07Z03"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y07Z03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y07Z03/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym03Z07" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -0.25, 0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -0.5, 1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym03Z07"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym03Z07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym03Z07/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym05Z05" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.42, 0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -1, 1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym05Z05"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym05Z05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym05Z05/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym07Z03" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, -0.5, 0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -1, 0.5)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym07Z03"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym07Z03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym07Z03/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosZBackward" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 0, -1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosZBackward"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosZBackward"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosZBackward/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Y03Zm07" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.25, -0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 0.5, -1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y03Zm07"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y03Zm07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y03Zm07/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Y05Zm05" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.42, -0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, -1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y05Zm05"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y05Zm05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y05Zm05/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Y07Zm03" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0.5, -0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, -0.5)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y07Zm03"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y07Zm03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y07Zm03/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym03Zm07" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -0.25, -0.5)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -0.5, -1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym03Zm07"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym03Zm07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym03Zm07/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym05Zm05" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, -0.42, -0.42)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -1, -1)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym05Zm05"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym05Zm05"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym05Zm05/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="PosX00Ym07Zm03" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, -0.5, -0.25)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, -1, -0.5)
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym07Zm03"]
+material_overlay = ExtResource("5_uaiwx")
+size = Vector3(0.05, 0.05, 0.1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym07Zm03"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym07Zm03/StaticBody3D"]
+shape = SubResource("BoxShape3D_lj187")
+
+[node name="RingY" type="Node3D" parent="."]
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 1, 0)
+TransformType = 1
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RingY"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingY/StaticBody3D"]
+shape = SubResource("CylinderShape3D_drnjs")
+
+[node name="RingY" type="CSGTorus3D" parent="RingY"]
+sorting_offset = 999.0
+material_override = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_d4ecl")
+snap = 1e-06
+collision_layer = 2
+collision_mask = 2
+collision_priority = 100.0
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+
+[node name="RingX" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 1)
+script = ExtResource("2_pcjjg")
+axis = Vector3(1, 0, 0)
+TransformType = 1
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RingX"]
+transform = Transform3D(1, 0, 0, 0, 1, -8.35189e-23, 0, -8.35188e-23, 1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingX/StaticBody3D"]
+shape = SubResource("CylinderShape3D_d7vnf")
+
+[node name="RingX" type="CSGTorus3D" parent="RingX"]
+transform = Transform3D(1, 0, 0, 0, 1, -8.35189e-23, 0, -8.35188e-23, 1, 0, 0, 0)
+layers = 2
+sorting_offset = 999.0
+material_override = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_lonf2")
+collision_layer = 2
+collision_mask = 2
+collision_priority = 100.0
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+
+[node name="RingZ" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+script = ExtResource("2_pcjjg")
+axis = Vector3(0, 0, 1)
+TransformType = 1
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RingZ"]
+collision_layer = 2
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingZ/StaticBody3D"]
+shape = SubResource("CylinderShape3D_dlswh")
+
+[node name="RingZ" type="CSGTorus3D" parent="RingZ"]
+layers = 2
+sorting_offset = 999.0
+material_override = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_uaiwx")
+collision_layer = 2
+collision_mask = 2
+collision_priority = 100.0
+inner_radius = 0.27
+outer_radius = 0.3
+sides = 20
+ring_sides = 3
+smooth_faces = false
+
+[connection signal="release_this_axis" from="PosXRight" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX07Y00Z03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX05Y00Z05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX03Y00Z07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX07Y00Zm03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX05Y00Zm05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX03Y00Zm07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXLeft" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm07Y00Z03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm05Y00Z05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm03Y00Z07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm07Y00Zm03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm05Y00Zm05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm03Y00Zm07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosYTop" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm03Y07Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm05Y05Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm07Y03Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX03Y07Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX05Y05Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX07Y03Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosYBottom" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm03Ym07Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm05Ym05Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosXm07Ym03Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX03Ym07Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX05Ym05Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX07Ym03Z00" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosZForward" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y03Z07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y05Z05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y07Z03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym03Z07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym05Z05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym07Z03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosZBackward" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y03Zm07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y05Zm05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Y07Zm03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym03Zm07" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym05Zm05" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="PosX00Ym07Zm03" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="RingY" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="RingX" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="RingZ" to="." method="release_event_axis2"]

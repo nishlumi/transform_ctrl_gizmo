@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2024/10/16
+
+* Added "gizmo_buttonform_template2" as a new operation gizmo.
+
+
 ## 2024/10/14
 
 * Fixed the issue where the color did not change when selecting an axis.
