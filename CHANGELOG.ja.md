@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2024/10/20
+
+* テンプレートが「gizmo_buttonform_template2」のとき、移動の操作では操作中の軸以外は非表示になるようにした。
+
 ## 2024/10/16
 
 * 新しい操作方法のギズモとして、「gizmo_buttonform_template2」を追加。

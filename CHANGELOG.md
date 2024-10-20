@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2024/10/20
+
+* When the template is "gizmo_buttonform_template2", all axes except the one being operated are hidden during movement operations.
+
 ## 2024/10/16
 
 * Added "gizmo_buttonform_template2" as a new operation gizmo.

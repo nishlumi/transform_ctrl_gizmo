@@ -155,7 +155,7 @@ func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 	#---namely: RingY, PlaneXY, etc...
 	var cs = parobj.get_children()
 	
-	for obj in cs:
+	for obj: TCGizmoBtnFormChild in cs:
 		var ishit = true
 		#---each transform type
 		if (parobj.is_translation == false):
@@ -177,9 +177,18 @@ func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 			if (obj.TransformType == TransformOperateType.Scale):
 				ishit = false
 			
-					
+		#---other than this axis object
+		if axis.x == 0 and obj.axis.x != 0:
+			ishit = false
+		if axis.y == 0 and obj.axis.y != 0:
+			ishit = false
+		if axis.z == 0 and obj.axis.z != 0:
+			ishit = false
+		
 		if ishit:
 			if obj.TransformType == TransformType:
 				obj.visible = true
 			else:
 				obj.visible = flag
+		else:
+			obj.visible = flag

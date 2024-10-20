@@ -161,10 +161,10 @@ func check_TCGizmo(collparent, collider) -> bool:
 	var ccld = collparent.get_children()
 	var objreceiver: TransformCtrlGizmoReceiver = null
 	for cc in ccld:
-		if cc.name == "TransformCtrlGizmoSelfHost":
+		if cc is TransformCtrlGizmoSelfHost:
 			#---node has SelfHost version ?
 			ishit_selfhost = 1
-		if cc.name == "TransformCtrlGizmoReceiver":
+		if cc is TransformCtrlGizmoReceiver:
 			#---node has Receiver version ?
 			ishit_receiver = 1
 			objreceiver = cc

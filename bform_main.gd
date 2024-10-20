@@ -62,18 +62,22 @@ func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool
 	var arr_scale = [
 	]
 	var children = get_children()
+	
 	for tcg: TCGizmoBtnFormChild in children:
 		if tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Translate:
 			tcg.visible = is_translate
 			if (tcg.axis.x != 0):
 				if is_x == false:
 					tcg.visible = is_x
+				
 			if  (tcg.axis.y != 0):
 				if is_y == false:
 					tcg.visible = is_y
+				
 			if  (tcg.axis.z != 0):
 				if is_z == false:
 					tcg.visible = is_z
+				
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Rotate:
 			tcg.visible = is_rotate
 			if  ((tcg.axis.x != 0) and (is_x == false)):
