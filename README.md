@@ -94,14 +94,21 @@ Enables operations on the Z axis.
 
 ### TransformCtrlGizmoServer
 
+#### Properties
+
 **Gizmo Template**
 
 Select the name of the gizmo template you want to use.
 
-* gizmo_template1 - A general gizmo shape.
-* gizmo_template2 - A new shape we are currently testing.
-* gizmo_buttonform_template1 - A completely new shape with a completely new way to operate.
-* gizmo_buttonform_template2 - A completely new shape with a completely new way to operate.
+* gizmo_basic_form - A general gizmo shape.
+* gizmo_testing_form - A new shape we are currently testing.
+* gizmo_firework_form - A completely new shape with a completely new way to operate.
+
+gizmo_firework_form: Gizmo firework form
+    ![gizmo_firework_form](img/img02.png "Gizmo firework form")
+
+    If you drag the lines pointing in the X/Y/Z directions, the object will move in the direction the lines point. Unlike conventional transform handles, mouse movements are not reflected as coordinates in 3D space.
+    The target object will not move unless you click and hold the mouse to move it.
 
 **Controller**
 
@@ -119,6 +126,10 @@ Camera node to reference. If not specified, the parent node will be automaticall
 
 Sets the collision layer for the entire gizmo. Do not use this layer for other nodes.
 
+**Child Visual Layer**
+
+Sets the drawing layer for the entire gizmo. This should be a layer that is not used by other nodes.
+
 **Is Global**
 
 Switches the operation space between global and local.
@@ -134,6 +145,31 @@ Sets the rotation speed.
 **Scale Speed**
 
 Sets the scale speed.
+
+#### Signals
+
+**gizmo_changed_target(newtarget: Node, oldtarget: Node)**
+
+This signal is sent when the gizmo's target node is changed.
+newtarget - new target node
+oldtarget - old target node
+
+**gizmo_complete_translate(pos: Vector3, pos_global: Vector3)**
+
+This signal is sent when a translation operation is performed.
+pos - new position (local)
+pos_global - new position (global)
+
+**gizmo_complete_rotate(angle: Vector3, angle_global: Vector3)**
+
+This signal is sent when a rotation operation is performed.
+angle - new angle (local)
+angle_global - new angle (global)
+
+**gizmo_complete_scale(scale: Vector3)**
+
+This signal is sent when a scale operation is performed.
+scale - new scale
 
 ## Postscript
 

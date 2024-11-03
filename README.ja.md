@@ -95,14 +95,22 @@ Z軸の各操作を有効にします。
 
 ### TransformCtrlGizmoServer
 
+#### プロパティ
+
 **Gizmo Template**
 
 使用するギズモのテンプレート名を選択します。
 
-* gizmo_template1 - 一般的なギズモの図形です。
-* gizmo_template2 - 現在テストしている新しい図形です。
-* gizmo_buttonform_template1 - 操作方法を一新したまったく新しい図形です。
-* gizmo_buttonform_template2 - 操作方法を一新したまったく新しい図形です。
+* gizmo_basic_form - 一般的なギズモの図形です。
+* gizmo_testing_form - 現在テストしている新しい図形です。
+* gizmo_firework_form - 操作方法を一新したまったく新しい図形です。
+
+gizmo_firework_form: ギズモ花火フォーム
+    ![gizmo_firework_form](img/img02.png "Gizmo firework form")
+
+    X/Y/Z軸それぞれの方向に向いた棒線をドラッグして動かすと、その棒線の向いた方向へと移動します。従来のトランスフォームハンドルのように、マウスの動きが3D空間の座標になって反映されることはありません。
+    マウスでクリックしたままで動かさないと、対象のオブジェクトは動きません。
+
 
 **Controller**
 
@@ -124,6 +132,10 @@ Z軸の各操作を有効にします。
 
 ギズモ全体のコリジョンレイヤーを設定します。他のノードでは使わないレイヤーにしてください。
 
+**Child Visual Layer**
+
+ギズモ全体の描画レイヤーを設定します。他のノードでは使わないレイヤーにしてください。
+
 **Is Global**
 
 操作空間をグローバル・ローカルどちらかに切り替えます。
@@ -140,6 +152,30 @@ Z軸の各操作を有効にします。
 
 スケールの速度を設定します。
 
+#### シグナル
+
+**gizmo_changed_target(newtarget: Node, oldtarget: Node)**
+
+ギズモの対象のノードが変更されたらこのシグナルが送信されます。
+newtarget - 新しい対象ノード
+oldtarget - 古い対象ノード
+
+**gizmo_complete_translate(pos: Vector3, pos_global: Vector3)**
+
+移動の操作が行われたらこのシグナルが送信されます。
+pos - 移動後の位置（ローカル）
+pos_global - 移動後の位置（グローバル）
+
+**gizmo_complete_rotate(angle: Vector3, angle_global: Vector3)**
+
+回転の操作が行われたらこのシグナルが送信されます。
+angle - 回転後の角度（ローカル）
+angle_global - 回転後の角度（グローバル）
+
+**gizmo_complete_scale(scale: Vector3)**
+
+スケール変更の操作が行われたらこのシグナルが送信されます。
+scale - 変更後のスケール
 
 
 ## 後記

@@ -1,7 +1,7 @@
 class_name TransformCtrlGizmoSelfHost
 extends Node3D
 
-var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
+var gizmo_template = preload("res://addons/transform_ctrl_gizmo/scene/gizmo_testing_form.tscn")
 
 @export var controller: TCGizmoTop
 @export var MainCamera: Camera3D

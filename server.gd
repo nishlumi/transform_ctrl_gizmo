@@ -1,14 +1,24 @@
 class_name TransformCtrlGizmoServer
 extends Node3D
 
+## gizmo finished to positionning
+signal gizmo_complete_translate(pos: Vector3, pos_global: Vector3)
+## gizmo finished to rotate
+signal gizmo_complete_rotate(angle: Vector3, angle_global: Vector3)
+## gizmo finished to resize
+signal gizmo_complete_scale(scale: Vector3)
+## gizmo target changed
+signal gizmo_changed_target(newtarget: Node, oldtarget: Node)
+
+
 #---if you want to change tscn, change .tscn name.
 #var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
 #var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_buttonform_template1.tscn")
 #var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template1.tscn")
 var gizmo_template = null
-const gizmo_template_path: String = "res://addons/transform_ctrl_gizmo/"
+const gizmo_template_path: String = "res://addons/transform_ctrl_gizmo/scene/"
 
-@export_enum("gizmo_template1","gizmo_template2","gizmo_buttonform_template1","gizmo_buttonform_template2") var gizmo_template_name: String = "gizmo_template2"
+@export_enum("gizmo_basic_form","gizmo_testing_form","gizmo_firework_form") var gizmo_template_name: String = "gizmo_firework_form"
 #---Gizmo tscn
 @export var controller: TCGizmoTop
 #---target node to operate
@@ -19,12 +29,17 @@ const gizmo_template_path: String = "res://addons/transform_ctrl_gizmo/"
 @export var enable_detect: bool = true
 #---child collision layer
 @export_range(1,20) var child_collision_layer: int
+#---child visual(instance3D) layer(s)
+@export_range(1,20) var child_visual_layer: int
 #---space is global ? or self ?
 @export var is_global: bool = false
 
 @export var move_speed: float = 2
 @export var rotate_speed: float = 1000
 @export var scale_speed: float = 0.05
+
+@export var distance_basesize: float = 0.2
+@export var distance_minsize: float = 0.15
 
 #---Gizmo mode
 enum TCGizmoMode {FindTarget = 0, MoveTarget = 1, MoveWaitTarget = 2}
@@ -44,9 +59,17 @@ func _ready() -> void:
 		
 		var cnt = get_tree().root.get_child_count()
 		get_tree().root.get_child(cnt-1).add_child.call_deferred(controller)
+
+		#---it connected events
+		controller.connect("gizmo_translate",_on_receive_gizmo_translate)
+		controller.connect("gizmo_rotate",_on_receive_gizmo_rotate)
+		controller.connect("gizmo_scaling",_on_receive_gizmo_scale)
 	
 	if MainCamera == null:
 		MainCamera = get_parent()
+
+func get_class():
+	return "TransformCtrlGizmoServer"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -60,7 +83,38 @@ func _process(delta: float) -> void:
 		controller.scale_speed = scale_speed
 		bk_scale_speed = scale_speed
 
-
+func _physics_process(delta: float) -> void:
+	
+	if controller.target != null:
+		if is_global:
+			controller.position.x = controller.target.position.x + controller.target_receiver.show_offset.x + controller.show_offset.x
+			controller.position.y = controller.target.position.y + controller.target_receiver.show_offset.y + controller.show_offset.y
+			controller.position.z = controller.target.position.z + controller.target_receiver.show_offset.z + controller.show_offset.z
+			if controller.is_pressing_leftbutton:
+				#rotation = target.rotation
+				controller.rotation_degrees = Vector3.ZERO
+			else:
+				#---is release left button, recover gizmo rotation  to ZERO base.
+				controller.rotation_degrees = Vector3.ZERO
+		else:
+			controller.position.x = controller.target.position.x + controller.target_receiver.show_offset.x + controller.show_offset.x
+			controller.position.y = controller.target.position.y + controller.target_receiver.show_offset.y + controller.show_offset.y
+			controller.position.z = controller.target.position.z + controller.target_receiver.show_offset.z + controller.show_offset.z
+			controller.rotation = controller.target.rotation
+		
+		#---change this gizmo size by distance to main camera
+		var glodist = MainCamera.global_position - controller.global_position
+		#print("glodist=",glodist.length())
+		var basesize = (glodist.length() * distance_basesize)
+		#print("basesize=",basesize)
+		if basesize < distance_minsize:
+			basesize = distance_minsize
+		#if basesize > 5:
+		#	basesize = basesize * 0.5
+			
+		controller.scale.x = basesize
+		controller.scale.y = basesize
+		controller.scale.z = basesize
 
 func _input(event: InputEvent) -> void:
 	if enable_detect != true:
@@ -92,6 +146,7 @@ func _input(event: InputEvent) -> void:
 				var ishit_finalcheck = true
 				
 				var result = space_state.intersect_ray(rayq)
+				print_debug(result)
 				if "collider" in result:
 					#---pattern
 					# 1: Node3D
@@ -113,15 +168,17 @@ func _input(event: InputEvent) -> void:
 					
 					#---check parent of hit object has TransformCtrlGizmoReceiver ?
 					if check_TCGizmo(collparent, rcoll):
-						print("new object hit!")
+						print_debug("new object hit!")
+						gizmo_changed_target.emit(collparent, controller.target)
 					else:
 						#---hit object own has TransformCtrlGizmoReceiver ?
 						if check_TCGizmo(rcoll, rcoll):
-							print("new object hit!")
+							print_debug("new object hit!")
+							gizmo_changed_target.emit(collparent, controller.target)
 						else:
 							ishit_finalcheck = false
 						
-					print("receive target is clicking.")
+					print_debug("receive target is clicking.")
 				else:
 					ishit_finalcheck = false
 				
@@ -136,7 +193,8 @@ func _input(event: InputEvent) -> void:
 						#---check already shown gizmo. wheather it click the gizmo?
 						if (scndcollparent is TCGizmoChild) or (scndcollparent is TCGizmoBtnFormChild):
 							#---that object is really target ???
-							print("TCGizmoChild is active!")
+							print_debug("TCGizmoChild is active!")
+							print(scndrcoll,"<--",scndcollparent)
 							controller.unhandled_input(event,scndrcoll, scndcollparent)
 							gizmode = TCGizmoMode.MoveTarget
 							return
@@ -190,6 +248,7 @@ func check_TCGizmo(collparent, collider) -> bool:
 			controller.target = collparent
 			controller.target_collider = collider
 			controller.setup_child_collision_layer(child_collision_layer)
+			controller.setup_child_visual_layer(child_visual_layer)
 			controller.target_receiver = objreceiver
 			controller.visible = true
 			controller.setup_is_global_flag(is_global)
@@ -217,3 +276,12 @@ func checkCurrentTargetSameAs(hitobjet: Node3D) -> bool:
 		return true
 	else:
 		return false
+
+func _on_receive_gizmo_translate(pos: Vector3, pos_global: Vector3):
+	gizmo_complete_translate.emit(pos, pos_global)
+
+func _on_receive_gizmo_rotate(rot: Vector3, rot_global: Vector3):
+	gizmo_complete_rotate.emit(rot, rot_global)
+
+func _on_receive_gizmo_scale(scale: Vector3, is_global: bool):
+	gizmo_complete_scale.emit(scale)

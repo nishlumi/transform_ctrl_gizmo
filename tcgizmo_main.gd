@@ -3,12 +3,12 @@ extends Node3D
 
 enum TransformOperateType{Translate = 0, Rotate = 1, Scale = 2}
 
-
-signal gizmo_rotate(x:float, y:float, z:float, is_relative:bool)
-signal gizmo_translate(x:float, y:float, z:float, is_relative:bool)
-signal gizmo_scaling(x:float, y:float, z:float, is_relative:bool)
-signal current_position_to3d(curpos: Vector3)
-
+## The gizmo was moved
+signal gizmo_translate(pos: Vector3, pos_global: Vector3)
+## The gizmo was rotated
+signal gizmo_rotate(rot: Vector3, rot_global: Vector3)
+## The gizmo was resized
+signal gizmo_scaling(sca: Vector3)
 
 @export var is_relative: bool = false
 @export var is_translation: bool
@@ -60,7 +60,7 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _physics_process(delta: float) -> void:
+func __physics_process(delta: float) -> void:
 	if !is_selfhost:
 		if target != null:
 			if is_global:
@@ -82,10 +82,10 @@ func _physics_process(delta: float) -> void:
 			#---change this gizmo size by distance to main camera
 			var glodist = current_camera.global_position - global_position
 			#print("glodist=",glodist.length())
-			var basesize = (glodist.length() * 0.2)
+			var basesize = (glodist.length() * 0.1)
 			#print("basesize=",basesize)
-			if basesize < 0.3:
-				basesize = 0.3
+			if basesize < 0.1:
+				basesize = 0.1
 			#if basesize > 5:
 			#	basesize = basesize * 0.5
 				
@@ -143,7 +143,7 @@ func setup_meshObject():
 		meshobj.material_override = mat
 
 func setup_child_collision_layer(layer: int):
-	var arr = [
+	"""var arr = [
 		"RingY/StaticBody3D",
 		"RingX/StaticBody3D",
 		"RingZ/StaticBody3D",
@@ -157,13 +157,26 @@ func setup_child_collision_layer(layer: int):
 		"BoxX/StaticBody3D",
 		"BoxY/StaticBody3D",
 		"BoxZ/StaticBody3D"
-	]
+	]"""
 	var children = get_children()
 	for a: TCGizmoChild in children:
 		var staticbody = a.get_node("StaticBody3D") as StaticBody3D
-		staticbody.collision_layer = 1 << (layer - 1)
+		if staticbody != null:
+			staticbody.collision_layer = 1 << (layer - 1)
+		for c in a.get_children():
+			if c is CSGPrimitive3D:
+				if (c as CSGPrimitive3D).use_collision == true:
+					(c as CSGPrimitive3D).collision_layer = 1 << (layer - 1)
 	gizmo_inner_collision_layer = layer
-	
+
+func setup_child_visual_layer(layer: int):
+	var children = get_children()
+	for a in children:
+		var shapes = a.get_children()
+		for shape in shapes:
+			if (shape is CSGBox3D) or (shape is CSGTorus3D) or (shape is CSGMesh3D) or (shape is CSGCylinder3D):
+				shape.layers = 1 << (layer - 1)
+
 func setup_is_global_flag(flag: bool):
 	var arr = [
 		"RingY",
@@ -225,11 +238,11 @@ func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool
 				tcg.visible = is_z
 		elif tcg.TransformType == TCGizmoChild.TransformOperateType.Scale:
 			tcg.visible = is_scale
-			if  ((tcg.name == "BoxX") and (is_x == false)):
+			if  ((tcg.axis.x != 0) and (is_x == false)):
 				tcg.visible = is_x
-			if  ((tcg.name == "BoxY") and (is_y == false)):
+			if  ((tcg.axis.y != 0) and (is_y == false)):
 				tcg.visible = is_y
-			if ((tcg.name == "BoxZ") and (is_z == false)):
+			if ((tcg.axis.z != 0) and (is_z == false)):
 				tcg.visible = is_z
 	"""
 	for a in arr_translate:
@@ -272,6 +285,22 @@ func setup_axis_visible(x: bool, y: bool, z: bool):
 	is_y = y
 	is_z = z
 	
+## To find MeshInstance3D recursively
+func get_all_mesh_instances(node: Node) -> Array:
+	var mesh_instances = []
+
+	if (node is MeshInstance3D) or (node is VisualInstance3D):
+		if !(node.get_parent() is CSGCombiner3D):
+			mesh_instances.append(node)	
+
+	for child in node.get_children():
+		mesh_instances.append_array(get_all_mesh_instances(child))
+
+	return mesh_instances
+
+#==========================================================================
+# effective events
+#==========================================================================
 func input_event(camera:Node, event:InputEvent, position:Vector3, normal:Vector3, shape_idx:int):
 	pass
 
@@ -282,7 +311,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	
 	#last_target_collision_layer = target_collider.collision_layer
 	#clear_collision_layer()
-	var relXY = event.relative.x + event.relative.y
+	var relXY = (event.relative.x * -1) + (event.relative.y * -1)
 	
 	var oldpos3: Vector3 = last_mouse_pos3 #
 	oldpos3 = current_camera.project_ray_normal(old_position)
@@ -336,6 +365,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			if is_global == true:
 				var parentpos = self.global_position
 				target.global_translate(res)
+
 			else:
 				var parentpos = self.position
 				var rota = target.transform.basis
@@ -359,12 +389,18 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 				#var ori = target.transform.origin
 				#ori += local_diff * axis
 				#target.transform.origin = ori
-				#target.transform = target.transform.translated_local(local_diff * axis)
-				target.transform = target.transform.translated_local(diff * axis)
+				if (event.relative.x != 0) and (event.relative.y != 0):
+					pass
+				elif (event.relative.x != 0):
+					pass
+				elif (event.relative.y != 0):
+					pass
+				target.transform = target.transform.translated_local(local_diff * axis)
+				#target.transform = target.transform.translated_local(diff * axis)
 				#target.transform = target.transform.translated_local(direction)
 				
 				
-				
+			gizmo_translate.emit(target.position,target.global_position)
 			#print("  target=", target.name, ",  transformed position",target.position)
 		
 	elif transformType == TransformOperateType.Rotate: #---rotation
@@ -392,6 +428,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 				tmprot.z = tmprot.z + (-diff.z * sensitivity)
 				print(deg_to_rad(diff.z * sensitivity))
 			#target.global_rotation_degrees = tmprot
+
 		else:
 			var rota = target.transform.basis
 			var local_diff = rota.inverse() * diff
@@ -420,6 +457,8 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			#target.rotation_degrees = tmprot
 			
 			target.transform.origin = backorigin
+
+		gizmo_rotate.emit(target.rotation_degrees, target.global_rotation_degrees)
 	elif transformType == TransformOperateType.Scale: #---scale
 		var diff = curpos3 - oldpos3
 		
@@ -432,7 +471,10 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		elif relXY < 0:
 			rate = -1
 		
+		var children = get_all_mesh_instances(target)
 		var tmpscale: Vector3 = target.scale
+		if children.size() > 0:
+			tmpscale = children[0].scale
 		
 		if axis.x == 1:
 			tmpscale.x = tmpscale.x + scale_speed * rate 
@@ -443,9 +485,13 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 		
 		print("tmpscale=",tmpscale)
 		#target.transform = target.transform.scaled(tmpscale)
-		target.scale = tmpscale
+		#target.scale = tmpscale
+		for child in children:
+			child.scale = tmpscale
 		
 		#target.transform = target.transform.rotated_local(axis, ) #relXY * 0.01)
+
+		gizmo_scaling.emit(tmpscale, false)
 		
 		
 	last_posdiff_length = posdiff_length
@@ -499,7 +545,7 @@ func check_collision(from: Vector3, to: Vector3, layer: int) -> Dictionary:
 	return result
 	
 func release_event_axis(axis: Vector3):
-	target_collider.collision_layer = last_target_collision_layer
+	#target_collider.collision_layer = last_target_collision_layer
 	print("release=",target_collider.collision_layer)
 	
 

@@ -1,10 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://du13ymfmy3fwf"]
 
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
-[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="2_pcf3q"]
-[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_oncui"]
-[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_wog72"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_ss1ty"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="2_vh3n4"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="3_wk8ch"]
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_ibpwp"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_7s4hw"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jl7px"]
 height = 0.05
@@ -42,14 +42,14 @@ radius = 0.05
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
 process_physics_priority = 1
-script = ExtResource("1_7kuo1")
+script = ExtResource("1_ss1ty")
 
 [node name="RingX" type="CSGTorus3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("4_oncui")
-material_overlay = ExtResource("4_oncui")
+material_override = ExtResource("2_vh3n4")
+material_overlay = ExtResource("2_vh3n4")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -57,7 +57,7 @@ inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(1, 0, 0)
 TransformType = 1
 basecolor = Color(1, 0, 0, 1)
@@ -74,8 +74,8 @@ shape = SubResource("CylinderShape3D_jl7px")
 [node name="RingY" type="CSGTorus3D" parent="."]
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("2_pcf3q")
-material_overlay = ExtResource("2_pcf3q")
+material_override = ExtResource("4_ibpwp")
+material_overlay = ExtResource("4_ibpwp")
 snap = 1e-06
 use_collision = true
 collision_layer = 2
@@ -84,7 +84,7 @@ inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(0, 1, 0)
 TransformType = 1
 basecolor = Color(0, 1, 0, 1)
@@ -102,8 +102,8 @@ shape = SubResource("CylinderShape3D_wducf")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("5_wog72")
-material_overlay = ExtResource("5_wog72")
+material_override = ExtResource("5_7s4hw")
+material_overlay = ExtResource("5_7s4hw")
 use_collision = true
 collision_layer = 2
 collision_mask = 2
@@ -111,7 +111,7 @@ inner_radius = 0.95
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(0, 0, 1)
 TransformType = 1
 basecolor = Color(0, 0, 1, 1)
@@ -129,11 +129,11 @@ shape = SubResource("CylinderShape3D_45svu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26089, 0, 1.27266)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("2_pcf3q")
-material_overlay = ExtResource("2_pcf3q")
+material_override = ExtResource("4_ibpwp")
+material_overlay = ExtResource("4_ibpwp")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(1, 0, 1)
 is_global = true
 basecolor = Color(0, 1, 0, 1)
@@ -151,11 +151,11 @@ shape = SubResource("BoxShape3D_kujpe")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.19424, 1.06304, 0)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("5_wog72")
-material_overlay = ExtResource("5_wog72")
+material_override = ExtResource("5_7s4hw")
+material_overlay = ExtResource("5_7s4hw")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(1, 1, 0)
 is_global = true
 basecolor = Color(0, 0, 1, 1)
@@ -173,11 +173,11 @@ shape = SubResource("BoxShape3D_hsrfr")
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 1.20078, 1.13981)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("4_oncui")
-material_overlay = ExtResource("4_oncui")
+material_override = ExtResource("2_vh3n4")
+material_overlay = ExtResource("2_vh3n4")
 use_collision = true
 mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(0, 1, 1)
 is_global = true
 basecolor = Color(1, 0, 0, 1)
@@ -195,11 +195,11 @@ shape = SubResource("BoxShape3D_x4apt")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layers = 2
 sorting_offset = 998.0
-material_override = ExtResource("2_pcf3q")
-material_overlay = ExtResource("2_pcf3q")
+material_override = ExtResource("4_ibpwp")
+material_overlay = ExtResource("4_ibpwp")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(0, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
@@ -216,11 +216,11 @@ shape = SubResource("CylinderShape3D_10afs")
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
 layers = 2
 sorting_offset = 998.0
-material_override = ExtResource("4_oncui")
-material_overlay = ExtResource("4_oncui")
+material_override = ExtResource("2_vh3n4")
+material_overlay = ExtResource("2_vh3n4")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(1, 0, 0)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
@@ -237,11 +237,11 @@ shape = SubResource("CylinderShape3D_m1p2h")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
 layers = 2
 sorting_offset = 998.0
-material_override = ExtResource("5_wog72")
-material_overlay = ExtResource("5_wog72")
+material_override = ExtResource("5_7s4hw")
+material_overlay = ExtResource("5_7s4hw")
 use_collision = true
 size = Vector3(0.025, 2, 0.025)
-script = ExtResource("2_1a8dy")
+script = ExtResource("3_wk8ch")
 axis = Vector3(0, 0, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)

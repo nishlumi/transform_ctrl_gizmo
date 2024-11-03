@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2024/11/03
+
+* Changed the name of the gizmo template. Moved unnecessary templates. (gizmo_buttonform_template2 was named gizmo_firework_form.)
+* Added a signal (you can connect an event after the gizmo has moved)
+
+## 2024/10/23
+
+* Add Child Visual Layer property to TransformCtrlGizmoServer.
+
 ## 2024/10/20
 
 * When the template is "gizmo_buttonform_template2", all axes except the one being operated are hidden during movement operations.

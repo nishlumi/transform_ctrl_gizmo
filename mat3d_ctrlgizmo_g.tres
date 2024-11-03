@@ -2,7 +2,6 @@
 
 [resource]
 render_priority = 1
-no_depth_test = true
 shading_mode = 2
 diffuse_mode = 3
 albedo_color = Color(0, 1, 0.0823529, 0.505882)

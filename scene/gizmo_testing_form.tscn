@@ -1,11 +1,11 @@
 [gd_scene load_steps=19 format=3 uid="uid://dtihxutn4v713"]
 
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_7kuo1"]
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_1a8dy"]
-[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="2_vo4iw"]
-[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="4_g53tm"]
-[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_e00kd"]
-[ext_resource type="Material" uid="uid://b7s70po4a1wh" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_white.tres" id="6_cq7ev"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_420n8"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_2juk7"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="3_n6xf0"]
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_2youp"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_nh2jv"]
+[ext_resource type="Material" uid="uid://b7s70po4a1wh" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_white.tres" id="6_7ix3w"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l5h5e"]
 height = 0.05
@@ -50,14 +50,22 @@ radius = 0.05
 [node name="TCGizmo" type="Node3D"]
 process_priority = 1
 process_physics_priority = 1
-script = ExtResource("1_7kuo1")
+script = ExtResource("1_420n8")
 
-[node name="RingX" type="CSGTorus3D" parent="."]
+[node name="RingX" type="Node3D" parent="."]
+script = ExtResource("2_2juk7")
+axis = Vector3(1, 0, 0)
+TransformType = 1
+basecolor = Color(1, 0, 0, 0.490196)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="RingX" type="CSGTorus3D" parent="RingX"]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 1, 0, 0)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("4_g53tm")
-material_overlay = ExtResource("4_g53tm")
+material_override = ExtResource("3_n6xf0")
+material_overlay = ExtResource("3_n6xf0")
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
@@ -66,13 +74,10 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
-axis = Vector3(1, 0, 0)
-TransformType = 1
-basecolor = Color(1, 0, 0, 0.490196)
-selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingX"]
+process_mode = 4
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 1, 0, 0)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -80,12 +85,20 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingX/StaticBody3D"]
 shape = SubResource("CylinderShape3D_l5h5e")
 
-[node name="RingY" type="CSGTorus3D" parent="."]
+[node name="RingY" type="Node3D" parent="."]
+script = ExtResource("2_2juk7")
+axis = Vector3(0, 1, 0)
+TransformType = 1
+basecolor = Color(0, 1, 0.0823529, 0.505882)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="RingY" type="CSGTorus3D" parent="RingY"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 sorting_offset = 999.0
-material_override = ExtResource("2_vo4iw")
-material_overlay = ExtResource("2_vo4iw")
+material_override = ExtResource("4_2youp")
+material_overlay = ExtResource("4_2youp")
 snap = 1e-06
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
@@ -94,13 +107,10 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
-axis = Vector3(0, 1, 0)
-TransformType = 1
-basecolor = Color(0, 1, 0.0823529, 0.505882)
-selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingY"]
+process_mode = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -108,12 +118,20 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingY/StaticBody3D"]
 shape = SubResource("CylinderShape3D_pi8ko")
 
-[node name="RingZ" type="CSGTorus3D" parent="."]
+[node name="RingZ" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
+script = ExtResource("2_2juk7")
+axis = Vector3(0, 0, 1)
+TransformType = 1
+basecolor = Color(0, 0, 1, 0.490196)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="RingZ" type="CSGTorus3D" parent="RingZ"]
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("5_e00kd")
-material_overlay = ExtResource("5_e00kd")
+material_override = ExtResource("5_nh2jv")
+material_overlay = ExtResource("5_nh2jv")
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
@@ -122,13 +140,9 @@ outer_radius = 0.3
 sides = 20
 ring_sides = 3
 smooth_faces = false
-script = ExtResource("2_1a8dy")
-axis = Vector3(0, 0, 1)
-TransformType = 1
-basecolor = Color(0, 0, 1, 0.490196)
-selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingZ"]
+process_mode = 4
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -136,19 +150,21 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingZ/StaticBody3D"]
 shape = SubResource("CylinderShape3D_8e3yl")
 
-[node name="PlaneXZ" type="CSGMesh3D" parent="."]
+[node name="PlaneXZ" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-layers = 2
-sorting_offset = 999.0
-material_override = ExtResource("2_vo4iw")
-material_overlay = ExtResource("2_vo4iw")
-collision_layer = 2
-collision_priority = 100.0
-mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+script = ExtResource("2_2juk7")
 axis = Vector3(1, 0, 1)
 basecolor = Color(0, 1, 0.0823529, 0.505882)
 selcolor = Color(1, 1, 0, 1)
+
+[node name="PlaneXZ" type="CSGMesh3D" parent="PlaneXZ"]
+layers = 2
+sorting_offset = 999.0
+material_override = ExtResource("4_2youp")
+material_overlay = ExtResource("4_2youp")
+collision_layer = 2
+collision_priority = 100.0
+mesh = SubResource("BoxMesh_aocuc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PlaneXZ"]
 collision_layer = 2
@@ -158,19 +174,21 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneXZ/StaticBody3D"]
 shape = SubResource("BoxShape3D_1tgwv")
 
-[node name="PlaneXY" type="CSGMesh3D" parent="."]
+[node name="PlaneXY" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
-layers = 2
-sorting_offset = 999.0
-material_override = ExtResource("5_e00kd")
-material_overlay = ExtResource("5_e00kd")
-collision_layer = 2
-collision_priority = 100.0
-mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+script = ExtResource("2_2juk7")
 axis = Vector3(1, 1, 0)
 basecolor = Color(0, 0, 1, 0.490196)
 selcolor = Color(1, 1, 0, 1)
+
+[node name="PlaneXY" type="CSGMesh3D" parent="PlaneXY"]
+layers = 2
+sorting_offset = 999.0
+material_override = ExtResource("5_nh2jv")
+material_overlay = ExtResource("5_nh2jv")
+collision_layer = 2
+collision_priority = 100.0
+mesh = SubResource("BoxMesh_aocuc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PlaneXY"]
 visible = false
@@ -181,21 +199,25 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneXY/StaticBody3D"]
 shape = SubResource("BoxShape3D_j7wv0")
 
-[node name="PlaneYZ" type="CSGMesh3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.5, 0.5)
-layers = 2
-sorting_offset = 999.0
-material_override = ExtResource("4_g53tm")
-material_overlay = ExtResource("4_g53tm")
-collision_layer = 2
-collision_priority = 100.0
-mesh = SubResource("BoxMesh_aocuc")
-script = ExtResource("2_1a8dy")
+[node name="PlaneYZ" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(0, 1, 1)
 basecolor = Color(1, 0, 0, 0.490196)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="PlaneYZ" type="CSGMesh3D" parent="PlaneYZ"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 4.37114e-08, 1, -0.5, 0.5, 0)
+layers = 2
+sorting_offset = 999.0
+material_override = ExtResource("3_n6xf0")
+material_overlay = ExtResource("3_n6xf0")
+collision_layer = 2
+collision_priority = 100.0
+mesh = SubResource("BoxMesh_aocuc")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="PlaneYZ"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 4.37114e-08, 1, -0.5, 0.5, 0)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -203,21 +225,25 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaneYZ/StaticBody3D"]
 shape = SubResource("BoxShape3D_ruq0d")
 
-[node name="StickY" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-layers = 2
-sorting_offset = 998.0
-material_override = ExtResource("2_vo4iw")
-material_overlay = ExtResource("2_vo4iw")
-collision_layer = 2
-collision_priority = 100.0
-size = Vector3(0.03, 1, 0.03)
-script = ExtResource("2_1a8dy")
+[node name="StickY" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(0, 1, 0)
 basecolor = Color(0, 1, 0.0823529, 0.505882)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="StickY" type="CSGBox3D" parent="StickY"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, 0, 0)
+layers = 2
+sorting_offset = 998.0
+material_override = ExtResource("4_2youp")
+material_overlay = ExtResource("4_2youp")
+collision_layer = 2
+collision_priority = 100.0
+size = Vector3(0.03, 1, 0.03)
+
 [node name="StaticBody3D" type="StaticBody3D" parent="StickY"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, 0, 0)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -225,21 +251,25 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StickY/StaticBody3D"]
 shape = SubResource("CylinderShape3D_h27ml")
 
-[node name="StickX" type="CSGBox3D" parent="."]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
-layers = 2
-sorting_offset = 998.0
-material_override = ExtResource("4_g53tm")
-material_overlay = ExtResource("4_g53tm")
-collision_layer = 2
-collision_priority = 100.0
-size = Vector3(0.03, 1, 0.03)
-script = ExtResource("2_1a8dy")
+[node name="StickX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(1, 0, 0)
 basecolor = Color(1, 0, 0, 0.490196)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="StickX" type="CSGBox3D" parent="StickX"]
+transform = Transform3D(-4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, 1, -1, 4.37114e-08, -4.37114e-08, 0, 2.18557e-08, 0.5)
+layers = 2
+sorting_offset = 998.0
+material_override = ExtResource("3_n6xf0")
+material_overlay = ExtResource("3_n6xf0")
+collision_layer = 2
+collision_priority = 100.0
+size = Vector3(0.03, 1, 0.03)
+
 [node name="StaticBody3D" type="StaticBody3D" parent="StickX"]
+transform = Transform3D(-4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, 1, -1, 4.37114e-08, -4.37114e-08, 0, 2.18557e-08, 0.5)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -247,21 +277,25 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StickX/StaticBody3D"]
 shape = SubResource("CylinderShape3D_u0uwi")
 
-[node name="StickZ" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
-layers = 2
-sorting_offset = 998.0
-material_override = ExtResource("5_e00kd")
-material_overlay = ExtResource("5_e00kd")
-collision_layer = 2
-collision_priority = 100.0
-size = Vector3(0.03, 1, 0.03)
-script = ExtResource("2_1a8dy")
+[node name="StickZ" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(0, 0, 1)
 basecolor = Color(0, 0, 1, 0.490196)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="StickZ" type="CSGBox3D" parent="StickZ"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0.5)
+layers = 2
+sorting_offset = 998.0
+material_override = ExtResource("5_nh2jv")
+material_overlay = ExtResource("5_nh2jv")
+collision_layer = 2
+collision_priority = 100.0
+size = Vector3(0.03, 1, 0.03)
+
 [node name="StaticBody3D" type="StaticBody3D" parent="StickZ"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0.5)
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -269,65 +303,81 @@ collision_priority = 100.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StickZ/StaticBody3D"]
 shape = SubResource("CylinderShape3D_gin1q")
 
-[node name="ScaleCenter" type="CSGBox3D" parent="."]
-transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
-material_overlay = ExtResource("6_cq7ev")
-material = ExtResource("6_cq7ev")
-script = ExtResource("2_1a8dy")
+[node name="ScaleCenter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(1, 1, 1)
 TransformType = 2
 basecolor = Color(1, 1, 1, 0.556863)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="ScaleCenter" type="CSGBox3D" parent="ScaleCenter"]
+transform = Transform3D(0.335, 0, 0, 0, -1.46433e-08, 0.335, 0, -0.335, -1.46433e-08, -0.5, 2.18557e-08, 0.5)
+material_overlay = ExtResource("6_7ix3w")
+material = ExtResource("6_7ix3w")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="ScaleCenter"]
+transform = Transform3D(0.335, 0, 0, 0, -1.46433e-08, 0.335, 0, -0.335, -1.46433e-08, -0.5, 2.18557e-08, 0.5)
 collision_mask = 0
 collision_priority = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ScaleCenter/StaticBody3D"]
 shape = SubResource("BoxShape3D_il6ta")
 
-[node name="BoxX" type="CSGBox3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1.09024, 0, 0)
-material_overlay = ExtResource("4_g53tm")
-script = ExtResource("2_1a8dy")
+[node name="BoxX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(1, 0, 0)
 TransformType = 2
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="BoxX" type="CSGBox3D" parent="BoxX"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0.59024, 2.18557e-08, 0.5)
+material_overlay = ExtResource("3_n6xf0")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="BoxX"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0.59024, 2.18557e-08, 0.5)
 collision_mask = 0
 collision_priority = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BoxX/StaticBody3D"]
 shape = SubResource("BoxShape3D_dkcua")
 
-[node name="BoxY" type="CSGBox3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.06248, 0)
-material_overlay = ExtResource("2_vo4iw")
-script = ExtResource("2_1a8dy")
+[node name="BoxY" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(0, 1, 0)
 TransformType = 2
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="BoxY" type="CSGBox3D" parent="BoxY"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, -0.5, -2.45868e-08, -0.56248)
+material_overlay = ExtResource("4_2youp")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="BoxY"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, -0.5, -2.45868e-08, -0.56248)
 collision_mask = 0
 collision_priority = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BoxY/StaticBody3D"]
 shape = SubResource("BoxShape3D_dkcua")
 
-[node name="BoxZ" type="CSGBox3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 1.083)
-material_overlay = ExtResource("5_e00kd")
-script = ExtResource("2_1a8dy")
+[node name="BoxZ" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+script = ExtResource("2_2juk7")
 axis = Vector3(0, 0, 1)
 TransformType = 2
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="BoxZ" type="CSGBox3D" parent="BoxZ"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, -0.5, 1.083, 0.5)
+material_overlay = ExtResource("5_nh2jv")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="BoxZ"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, -0.5, 1.083, 0.5)
 collision_mask = 0
 collision_priority = 100.0
 

@@ -12,6 +12,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+
 func setup_child_collision_layer(layer: int):
 	"""
 	var arr = [
@@ -29,9 +30,22 @@ func setup_child_collision_layer(layer: int):
 	var children = get_children()
 	for a: TCGizmoBtnFormChild in children:
 		var staticbody = a.get_node("StaticBody3D") as StaticBody3D
-		staticbody.collision_layer = 1 << (layer - 1)
+		if staticbody != null:
+			staticbody.collision_layer = 1 << (layer - 1)
+		for c in a.get_children():
+			if c is CSGPrimitive3D:
+				if (c as CSGPrimitive3D).use_collision == true:
+					(c as CSGPrimitive3D).collision_layer = 1 << (layer - 1)
 	gizmo_inner_collision_layer = layer
-	
+
+func setup_child_visual_layer(layer: int):
+	var children = get_children()
+	for a in children:
+		var shapes = a.get_children()
+		for shape in shapes:
+			if (shape is CSGBox3D) or (shape is CSGTorus3D) or (shape is CSGMesh3D) or (shape is CSGCylinder3D):
+				shape.layers = 1 << (layer - 1)
+
 func setup_is_global_flag(flag: bool):
 	"""
 	var arr = [
@@ -66,34 +80,37 @@ func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool
 	for tcg: TCGizmoBtnFormChild in children:
 		if tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Translate:
 			tcg.visible = is_translate
-			if (tcg.axis.x != 0):
-				if is_x == false:
-					tcg.visible = is_x
-				
-			if  (tcg.axis.y != 0):
-				if is_y == false:
-					tcg.visible = is_y
-				
-			if  (tcg.axis.z != 0):
-				if is_z == false:
-					tcg.visible = is_z
+			if is_translate == true:
+				if (tcg.axis.x != 0):
+					if is_x == false:
+						tcg.visible = is_x
+					
+				if  (tcg.axis.y != 0):
+					if is_y == false:
+						tcg.visible = is_y
+					
+				if  (tcg.axis.z != 0):
+					if is_z == false:
+						tcg.visible = is_z
 				
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Rotate:
 			tcg.visible = is_rotate
-			if  ((tcg.axis.x != 0) and (is_x == false)):
-				tcg.visible = is_x
-			if  ((tcg.axis.y != 0) and (is_y == false)):
-				tcg.visible = is_y
-			if  ((tcg.axis.z != 0) and (is_z == false)):
-				tcg.visible = is_z
+			if is_rotate == true:
+				if  ((tcg.axis.x != 0) and (is_x == false)):
+					tcg.visible = is_x
+				if  ((tcg.axis.y != 0) and (is_y == false)):
+					tcg.visible = is_y
+				if  ((tcg.axis.z != 0) and (is_z == false)):
+					tcg.visible = is_z
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Scale:
 			tcg.visible = is_scale
-			if  ((tcg.axis.x != 0) and (is_x == false)):
-				tcg.visible = is_x
-			if  ((tcg.axis.y != 0) and (is_y == false)):
-				tcg.visible = is_y
-			if ((tcg.axis.z != 0) and (is_z == false)):
-				tcg.visible = is_z
+			if is_scale == true:
+				if  ((tcg.axis.x != 0) ):
+					tcg.visible = is_x
+				if  ((tcg.axis.y != 0) ):
+					tcg.visible = is_y
+				if ((tcg.axis.z != 0) ):
+					tcg.visible = is_z
 	
 	is_translation = is_translate
 	is_rotation = is_rotate
@@ -108,12 +125,14 @@ func each_axis_on_pressing(type, is_global:bool, axis: Vector3, is_pressed: bool
 	if target == null:
 		return
 	
+	last_target_collision_layer = target_collider.collision_layer
 	if type == TransformOperateType.Translate:
 		var offset = btnmove_speed * axis
 		if is_global == true:
 			target.transform = target.transform.translated(offset)
 		else:
 			target.transform = target.transform.translated_local(offset)
+		gizmo_translate.emit(target.position,target.global_position)
 			
 			
 #---Receive input event ring
@@ -123,7 +142,7 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 	
 	#last_target_collision_layer = target_collider.collision_layer
 	#clear_collision_layer()
-	var relXY = event.relative.x + event.relative.y
+	var relXY = (event.relative.x * -1) + (event.relative.y * -1)
 	
 	var oldpos3: Vector3 = last_mouse_pos3 #
 	oldpos3 = current_camera.project_ray_normal(old_position)
@@ -192,8 +211,43 @@ func input_event_axis(event:InputEvent, cur_position: Vector2, old_position: Vec
 			
 			target.transform.origin = backorigin
 
+			gizmo_rotate.emit(target.rotation_degrees, target.global_rotation_degrees)
+	elif transformType == TransformOperateType.Scale: #---scale
+		var diff = curpos3 - oldpos3
+		
+		print("relXY=",relXY)
+		print("diff=",diff)
+		print("curdot=",curdot)
+		var rate = 0
+		if relXY > 0:
+			rate = 1
+		elif relXY < 0:
+			rate = -1
+		
+		var children = get_all_mesh_instances(target)
+		var tmpscale: Vector3 = target.scale
+		if children.size() > 0:
+			tmpscale = children[0].scale
+		
+		if axis.x == 1:
+			tmpscale.x = tmpscale.x + scale_speed * rate 
+		if axis.y == 1:
+			tmpscale.y = tmpscale.y + scale_speed * rate 
+		if axis.z == 1:
+			tmpscale.z = tmpscale.z + scale_speed * rate 
+		
+		print("tmpscale=",tmpscale," - ",scale_speed, " - ", event.relative)
+		#target.transform = target.transform.scaled(tmpscale)
+		#target.scale = tmpscale
+		
+		for child in children:
+			child.scale = tmpscale
+		
+
+		gizmo_scaling.emit(tmpscale, false)
+
 func release_event_axis2(type, is_global: bool, axis: Vector3):
-	target_collider.collision_layer = last_target_collision_layer
+	#target_collider.collision_layer = last_target_collision_layer
 	print("release=",target_collider.collision_layer)
 
 	
@@ -232,7 +286,11 @@ func unhandled_input(event: InputEvent, hitobject, hitparent):
 		if is_pressing_leftbutton:
 			if pressing_tcgizmo.TransformType == TransformOperateType.Translate:
 				each_axis_on_pressing(pressing_tcgizmo.TransformType, pressing_tcgizmo.is_global, pressing_tcgizmo.axis, is_pressing_leftbutton)
-			elif pressing_tcgizmo.TransformType == TransformOperateType.Rotate:
+			elif (
+					(pressing_tcgizmo.TransformType == TransformOperateType.Rotate) 
+					or 
+					(pressing_tcgizmo.TransformType == TransformOperateType.Scale)
+				):
 				input_event_axis(event, mouse_pos, last_mouse_pos, Vector3.ZERO, pressing_tcgizmo.axis, pressing_tcgizmo.TransformType, pressing_tcgizmo.is_global)
 			
 			last_mouse_pos = mouse_pos

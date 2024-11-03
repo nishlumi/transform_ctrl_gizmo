@@ -73,7 +73,16 @@ func input(event: InputEvent) -> void:
 			
 			clickpos = result.position
 			
-			if rcoll.get_parent_node_3d().name == name:
+			if rcoll.name == name:
+				#---hitted node and this node name is same
+				if TransformType == TransformOperateType.Rotate: #---rotation
+					#var meshobj = self
+					
+					#print(meshobj)
+					mainbody(event, [self], "rotation")
+					is_pressed = event.pressed
+					old_mousepos = event.position
+			elif rcoll.get_parent_node_3d().name == name:
 				if TransformType == TransformOperateType.Rotate: #---rotation
 					var meshobj = self
 					#print(meshobj)
@@ -99,11 +108,6 @@ func input(event: InputEvent) -> void:
 			is_pressed = false
 			is_transformtype = ""
 			release_this_axis.emit(TransformType, axis)
-	
-	
-	
-	
-
 
 func mainbody(event, meshobj: Array, typestr: String = ""):
 	if event is InputEventMouseButton:
@@ -119,16 +123,16 @@ func mainbody(event, meshobj: Array, typestr: String = ""):
 				pressing_this_axis.emit(TransformType, axis, is_pressed)
 				for mesh in meshobj:
 					mesh.material_overlay.set("albedo_color",selcolor)
-				toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),false)
+				#toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),false)
 				is_transformtype = typestr
 				print("---start ",typestr)
 				print(name)
 			else:
 				#---end transform
-				release_this_axis.emit(TransformType, axis)
+				release_this_axis.emit(TransformType, is_global, axis)
 				for mesh in meshobj:
 					mesh.material_overlay.set("albedo_color",basecolor)
-				toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),true)
+				#toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),true)
 				is_transformtype = ""
 				print("---end ")
 				
@@ -142,6 +146,8 @@ func change_state_this_axis(event):
 		mainbody(event,meshs,"rotation")
 	elif TransformType == TransformOperateType.Translate:
 		mainbody(event,meshs,"translate")
+	elif TransformType == TransformOperateType.Scale:
+		mainbody(event,meshs,"scale")
 
 func on_pressing_other_axis(otheraxis: Vector3, is_pressed: bool):
 	if otheraxis != axis:
@@ -157,7 +163,10 @@ func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 	
 	for obj: TCGizmoBtnFormChild in cs:
 		var ishit = true
-		#---each transform type
+		var finalflag: bool = flag
+
+		#=== parent settings ===========================================================
+		#---each transform type enable/disable transform type
 		if (parobj.is_translation == false):
 			if (obj.TransformType == TransformOperateType.Translate):
 				ishit = false
@@ -168,7 +177,18 @@ func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 			if (obj.TransformType == TransformOperateType.Scale):
 				ishit = false
 		
-		#---each axis
+		#---each axis enable/disable transform type
+		if ishit == true:
+			if (parobj.is_x == false):
+				if (obj.axis.x != 0) and (obj.axis.y == 0):
+					ishit = false
+			if (parobj.is_y == false):
+				if (obj.axis.y != 0) and (obj.axis.z == 0):
+					ishit = false
+			if (parobj.is_z == false):
+				if (obj.axis.z != 0) and (obj.axis.x == 0):
+					ishit = false
+		"""
 		if (parobj.is_x == false) or (parobj.is_y == false) or (parobj.is_z == false):
 			if (obj.TransformType == TransformOperateType.Translate):
 				ishit = false
@@ -176,19 +196,57 @@ func toggle_otheraxis_visible(meobj:Node3D,flag: bool):
 				ishit = false
 			if (obj.TransformType == TransformOperateType.Scale):
 				ishit = false
+		"""
+
+		#=== current grab axis =======================================================
+		#---an axis other than this axis
+		if ishit == true:
+			if axis.x != 0:
+				if (obj.axis.x == 0):
+					ishit = false
+			if axis.y != 0:
+				if (obj.axis.y == 0):
+					ishit = false
+			if axis.z != 0:
+				if (obj.axis.z == 0):
+					ishit = false
+			"""
+			if axis.x == 0:
+				if (obj.axis.x != 0) and (obj.axis.y == 0):
+					ishit = false
+			if axis.y == 0:
+				if (obj.axis.y != 0) and (obj.axis.z == 0):
+					ishit = false
+			if axis.z == 0:
+				if (obj.axis.z != 0) and (obj.axis.x == 0):
+					ishit = false
+			"""
+
+		#---loop child same as this node transformtype
+		if TransformType == obj.TransformType:
+			if parobj.is_x == false:
+				if obj.axis.x != 0:
+					ishit = false
+					finalflag = false
 			
-		#---other than this axis object
-		if axis.x == 0 and obj.axis.x != 0:
-			ishit = false
-		if axis.y == 0 and obj.axis.y != 0:
-			ishit = false
-		if axis.z == 0 and obj.axis.z != 0:
-			ishit = false
+			if parobj.is_y == false:
+				if obj.axis.y != 0:
+					ishit = false
+					finalflag = false
+			
+			if parobj.is_z == false:
+				if obj.axis.z != 0:
+					ishit = false
+					finalflag = false
+			
+		#---final check
+		
 		
 		if ishit:
 			if obj.TransformType == TransformType:
 				obj.visible = true
 			else:
-				obj.visible = flag
+				obj.visible = finalflag
 		else:
-			obj.visible = flag
+			obj.visible = finalflag
+		

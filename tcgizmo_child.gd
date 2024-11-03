@@ -32,7 +32,7 @@ func _ready() -> void:
 	is_transformtype = ""
 	
 	var mat = get_node(".") as GeometryInstance3D
-	print(mat.material_overlay.get_class())
+	#print(mat.material_overlay.get_class())
 	#var bmat = mat.material_override.get_flag("no_depth_test")
 	#print(bmat)
 
@@ -74,17 +74,30 @@ func input(event: InputEvent) -> void:
 			#print(result)
 			
 			clickpos = result.position
-			
-			if rcoll.get_parent_node_3d().name == name:
+			if rcoll.name == name:
+				#---hitted node and this node name is same
 				if TransformType == TransformOperateType.Rotate: #---rotation
-					var meshobj = self
+					#var meshobj = self
+					
 					#print(meshobj)
-					mainbody(event, meshobj, "rotation")
+					mainbody(event, [self], "rotation")
+					is_pressed = event.pressed
+					old_mousepos = event.position
+			elif rcoll.get_parent_node_3d().name == name:
+				var arr = []				
+				for child in self.get_children():
+					if child is CSGPrimitive3D:
+						arr.append(child)
+				if TransformType == TransformOperateType.Rotate: #---rotation
+					#var meshobj = self
+					
+					#print(meshobj)
+					mainbody(event, arr, "rotation")
 					is_pressed = event.pressed
 					old_mousepos = event.position
 				elif TransformType == TransformOperateType.Translate: #---translation
-					var meshobj = self
-					mainbody(event, meshobj, "translate")
+					#var meshobj = self
+					mainbody(event, arr, "translate")
 					is_pressed = event.pressed
 					old_mousepos = event.position
 			else:
@@ -121,7 +134,7 @@ func input(event: InputEvent) -> void:
 	
 
 
-func mainbody(event, meshobj, typestr: String = ""):
+func mainbody(event, meshobj: Array, typestr: String = ""):
 	if event is InputEventMouseButton:
 		var mouseev: InputEventMouseButton = event
 		
@@ -133,23 +146,31 @@ func mainbody(event, meshobj, typestr: String = ""):
 			pressing_this_axis.emit(axis, is_pressed)
 			#---start transform
 			if mouseev.pressed:
-				meshobj.material_overlay.set("albedo_color",selcolor)
-				toggle_otheraxis_visible(meshobj,false)
+				for mesh in meshobj:
+					mesh.material_overlay.set("albedo_color",selcolor)
+				#toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),false)
 				is_transformtype = typestr
 				print("---start ",typestr)
 				print(name)
 			else:
 				#---end transform
-				meshobj.material_overlay.set("albedo_color",basecolor)
-				toggle_otheraxis_visible(meshobj,true)
+				for mesh in meshobj:
+					mesh.material_overlay.set("albedo_color",basecolor)
+				#toggle_otheraxis_visible(meshobj[0].get_parent_node_3d(),true)
 				is_transformtype = ""
 				print("---end ")
 				
 func change_state_this_axis(event):
+	var arr = []
+	for child in self.get_children():
+		if child is CSGPrimitive3D:
+			arr.append(child)
 	if TransformType == TransformOperateType.Rotate:
-		mainbody(event,self,"rotation")
+		mainbody(event,arr,"rotation")
 	elif TransformType == TransformOperateType.Translate:
-		mainbody(event,self,"translate")
+		mainbody(event,arr,"translate")
+	elif TransformType == TransformOperateType.Translate:
+		mainbody(event,arr,"scale")
 
 func on_pressing_other_axis(otheraxis: Vector3, is_pressed: bool):
 	if otheraxis != axis:

@@ -1,37 +1,38 @@
-[gd_scene load_steps=18 format=3 uid="uid://c16sfcawlrgfg"]
+[gd_scene load_steps=21 format=3 uid="uid://c16sfcawlrgfg"]
 
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_main.gd" id="1_k0sgd"]
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_child.gd" id="2_pcjjg"]
-[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="3_lonf2"]
-[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_d4ecl"]
-[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_uaiwx"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_main.gd" id="1_p3f0s"]
+[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/bform_child.gd" id="2_6x6sk"]
+[ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="3_wcoms"]
+[ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_o06le"]
+[ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_b2216"]
+[ext_resource type="Material" uid="uid://b7s70po4a1wh" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_white.tres" id="6_x3l0o"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0lv7t"]
-size = Vector3(0.2, 0.05, 0.05)
+size = Vector3(0.5, 0.05, 0.05)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hnm5e"]
-size = Vector3(0.1, 0.05, 0.05)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_fxnq6"]
 size = Vector3(0.2, 0.05, 0.05)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_fxnq6"]
+size = Vector3(0.5, 0.05, 0.05)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_lt7uc"]
-size = Vector3(0.05, 0.2, 0.05)
+size = Vector3(0.05, 0.6, 0.05)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_18qk4"]
-size = Vector3(0.05, 0.1, 0.05)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ssv3x"]
 size = Vector3(0.05, 0.2, 0.05)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssv3x"]
+size = Vector3(0.05, 0.6, 0.05)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ddjg"]
-size = Vector3(0.05, 0.05, 0.1)
+size = Vector3(0.05, 0.05, 0.6)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lj187"]
-size = Vector3(0.05, 0.05, 0.1)
+size = Vector3(0.05, 0.05, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_skvgs"]
-size = Vector3(0.05, 0.05, 0.2)
+size = Vector3(0.05, 0.05, 0.6)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_drnjs"]
 height = 0.05
@@ -41,23 +42,34 @@ radius = 0.3
 height = 0.05
 radius = 0.3
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_dlswh"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0kq1a"]
 height = 0.05
 radius = 0.3
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hjpte"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyxvt"]
+
 [node name="GizmoButtonformTemplate2" type="Node3D"]
-script = ExtResource("1_k0sgd")
+script = ExtResource("1_p3f0s")
 
 [node name="PosXRight" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, 0)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXRight"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.300448, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXRight"]
-material_overlay = ExtResource("3_lonf2")
-size = Vector3(0.2, 0.05, 0.05)
+material_overlay = ExtResource("3_wcoms")
+size = Vector3(0.5, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXRight"]
 
@@ -65,14 +77,14 @@ size = Vector3(0.2, 0.05, 0.05)
 shape = SubResource("BoxShape3D_0lv7t")
 
 [node name="PosX07Y00Z03" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.5, 0, 0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.8, 0, 0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, 0.5)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y00Z03"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y00Z03"]
@@ -81,30 +93,38 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosX05Y00Z05" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.419706, 0, 0.419706)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.6, 0, 0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, 1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y00Z05"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y00Z05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y00Z05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 0)
 shape = SubResource("BoxShape3D_hnm5e")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX05Y00Z05"]
+transform = Transform3D(-4.37114e-08, 0.999999, 0, -1, -4.37114e-08, 0, 0, 0, 0.999999, 0.1, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX03Y00Z07" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0.25, 0, 0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0.3, 0, 0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0.5, 0, 1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y00Z07"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y00Z07"]
@@ -113,14 +133,14 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosX07Y00Zm03" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.5, 0, -0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.8, 0, -0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, -0.5)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y00Zm03"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y00Zm03"]
@@ -129,30 +149,38 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosX05Y00Zm05" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.42, 0, -0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.6, 0, -0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, -1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y00Zm05"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y00Zm05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y00Zm05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 0)
 shape = SubResource("BoxShape3D_hnm5e")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX05Y00Zm05"]
+transform = Transform3D(-4.37114e-08, 0.999999, 0, -1, -4.37114e-08, 0, 0, 0, 0.999999, 0.1, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX03Y00Zm07" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 0.25, 0, -0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 0.3, 0, -0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0.5, 0, -1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y00Zm07"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y00Zm07"]
@@ -161,30 +189,37 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosXLeft" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0, 0)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXLeft"]
-material_overlay = ExtResource("3_lonf2")
-size = Vector3(0.2, 0.05, 0.05)
+material_overlay = ExtResource("3_wcoms")
+size = Vector3(0.5, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXLeft"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosXLeft/StaticBody3D"]
 shape = SubResource("BoxShape3D_fxnq6")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXLeft"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.3, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm07Y00Z03" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.5, 0, 0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.8, 0, 0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0, 0.5)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y00Z03"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y00Z03"]
@@ -193,30 +228,38 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosXm05Y00Z05" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.419584, 0, 0.419584)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.6, 0, 0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0, 1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y00Z05"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y00Z05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y00Z05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0)
 shape = SubResource("BoxShape3D_hnm5e")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXm05Y00Z05"]
+transform = Transform3D(-4.37114e-08, -0.999999, 0, 1, -4.37114e-08, 0, 0, 0, 0.999999, -0.1, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm03Y00Z07" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -0.25, 0, 0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -0.3, 0, 0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-0.5, 0, 1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y00Z07"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y00Z07"]
@@ -225,14 +268,14 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosXm07Y00Zm03" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.5, 0, -0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.8, 0, -0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0, -0.5)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y00Zm03"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y00Zm03"]
@@ -241,30 +284,38 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosXm05Y00Zm05" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -0.42, 0, -0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -0.6, 0, -0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0, -1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y00Zm05"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y00Zm05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y00Zm05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0)
 shape = SubResource("BoxShape3D_hnm5e")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXm05Y00Zm05"]
+transform = Transform3D(-4.37114e-08, -0.999999, 0, 1, -4.37114e-08, 0, 0, 0, 0.999999, -0.1, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm03Y00Zm07" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -0.25, 0, -0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -0.3, 0, -0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-0.5, 0, -1)
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y00Zm07"]
-material_overlay = ExtResource("3_lonf2")
+material_overlay = ExtResource("3_wcoms")
 size = Vector3(0.1, 0.05, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y00Zm07"]
@@ -273,30 +324,38 @@ size = Vector3(0.1, 0.05, 0.05)
 shape = SubResource("BoxShape3D_hnm5e")
 
 [node name="PosYTop" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosYTop"]
-material_overlay = ExtResource("4_d4ecl")
-size = Vector3(0.05, 0.2, 0.05)
+material_overlay = ExtResource("4_o06le")
+size = Vector3(0.05, 0.5, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosYTop"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosYTop/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 shape = SubResource("BoxShape3D_lt7uc")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosYTop"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0.3, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm03Y07Z00" type="Node3D" parent="."]
-transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -0.25, 0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -0.3, 0.8, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-0.5, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Y07Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Y07Z00"]
@@ -305,30 +364,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosXm05Y05Z00" type="Node3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.42, 0.42, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.6, 0.6, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Y05Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Y05Z00"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Y05Z00/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 shape = SubResource("BoxShape3D_18qk4")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXm05Y05Z00"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0.1, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm07Y03Z00" type="Node3D" parent="."]
-transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, -0.5, 0.25, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, -0.8, 0.3, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, 0.5, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Y03Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Y03Z00"]
@@ -337,14 +404,14 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosX03Y07Z00" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.25, 0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.3, 0.8, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0.5, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX03Y07Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX03Y07Z00"]
@@ -353,30 +420,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosX05Y05Z00" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.42, 0.42, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.6, 0.6, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX05Y05Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX05Y05Z00"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Y05Z00/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 shape = SubResource("BoxShape3D_18qk4")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX05Y05Z00"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0.1, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX07Y03Z00" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.5, 0.25, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0.8, 0.3, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0.5, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX07Y03Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX07Y03Z00"]
@@ -385,30 +460,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosYBottom" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosYBottom"]
-material_overlay = ExtResource("4_d4ecl")
-size = Vector3(0.05, 0.2, 0.05)
+material_overlay = ExtResource("4_o06le")
+size = Vector3(0.05, 0.5, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosYBottom"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosYBottom/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_ssv3x")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosYBottom"]
+transform = Transform3D(-1, 8.74227e-08, 0, -8.74228e-08, -0.999999, 0, 0, 0, 0.999999, 0, -0.3, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm03Ym07Z00" type="Node3D" parent="."]
-transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -0.25, -0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -0.3, -0.8, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-0.5, -1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm03Ym07Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm03Ym07Z00"]
@@ -417,30 +500,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosXm05Ym05Z00" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.42, -0.42, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -0.6, -0.6, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, -1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm05Ym05Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm05Ym05Z00"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosXm05Ym05Z00/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_18qk4")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosXm05Ym05Z00"]
+transform = Transform3D(-1, -8.74227e-08, 0, 8.74228e-08, -0.999999, 0, 0, 0, 0.999999, 0, -0.1, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosXm07Ym03Z00" type="Node3D" parent="."]
-transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.5, -0.25, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, -0.8, -0.3, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(-1, -0.5, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosXm07Ym03Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosXm07Ym03Z00"]
@@ -449,14 +540,14 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosX03Ym07Z00" type="Node3D" parent="."]
-transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.25, -0.5, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.3, -0.8, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0.5, -1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX03Ym07Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX03Ym07Z00"]
@@ -465,30 +556,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosX05Ym05Z00" type="Node3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.42, -0.42, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.6, -0.6, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, -1, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX05Ym05Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX05Ym05Z00"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX05Ym05Z00/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_18qk4")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX05Ym05Z00"]
+transform = Transform3D(-1, 8.74227e-08, 0, -8.74228e-08, -0.999999, 0, 0, 0, 0.999999, 0, -0.1, 0)
+material_overlay = ExtResource("4_o06le")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX07Ym03Z00" type="Node3D" parent="."]
-transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, 0.5, -0.25, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0, 1, 0.8, -0.3, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, -0.5, 0)
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX07Ym03Z00"]
-material_overlay = ExtResource("4_d4ecl")
+material_overlay = ExtResource("4_o06le")
 size = Vector3(0.05, 0.1, 0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX07Ym03Z00"]
@@ -497,30 +596,38 @@ size = Vector3(0.05, 0.1, 0.05)
 shape = SubResource("BoxShape3D_18qk4")
 
 [node name="PosZForward" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 0, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosZForward"]
-material_overlay = ExtResource("5_uaiwx")
-size = Vector3(0.05, 0.05, 0.2)
+material_overlay = ExtResource("5_b2216")
+size = Vector3(0.05, 0.05, 0.5)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosZForward"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosZForward/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
 shape = SubResource("BoxShape3D_8ddjg")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosZForward"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -0.999999, -1, -4.37114e-08, 0, -4.37114e-08, 0.999999, -4.37114e-08, 0, 0, 0.3)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Y03Z07" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.25, 0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.3, 0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 0.5, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y03Z07"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y03Z07"]
@@ -529,30 +636,38 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Y05Z05" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.42, 0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.6, 0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y05Z05"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y05Z05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y05Z05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
 shape = SubResource("BoxShape3D_lj187")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX00Y05Z05"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -0.999999, -1, -4.37114e-08, 0, -4.37114e-08, 0.999999, -4.37114e-08, 0, 0, 0.1)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Y07Z03" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0.5, 0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0.8, 0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, 0.5)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y07Z03"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y07Z03"]
@@ -561,14 +676,14 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Ym03Z07" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -0.25, 0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, -0.3, 0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -0.5, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym03Z07"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym03Z07"]
@@ -577,30 +692,38 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Ym05Z05" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.42, 0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.6, 0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -1, 1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym05Z05"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym05Z05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym05Z05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
 shape = SubResource("BoxShape3D_lj187")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX00Ym05Z05"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -0.999999, -1, -4.37114e-08, 0, -4.37114e-08, 0.999999, -4.37114e-08, 0, 0, 0.1)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Ym07Z03" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, -0.5, 0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, -0.8, 0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -1, 0.5)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym07Z03"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym07Z03"]
@@ -609,30 +732,38 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosZBackward" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 0, -1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosZBackward"]
-material_overlay = ExtResource("5_uaiwx")
-size = Vector3(0.05, 0.05, 0.2)
+material_overlay = ExtResource("5_b2216")
+size = Vector3(0.05, 0.05, 0.5)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosZBackward"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosZBackward/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
 shape = SubResource("BoxShape3D_skvgs")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosZBackward"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 0.999999, -1, -4.37114e-08, 0, 4.37114e-08, -0.999999, -4.37114e-08, 0, 0, -0.3)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Y03Zm07" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.25, -0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.3, -0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 0.5, -1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y03Zm07"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y03Zm07"]
@@ -641,30 +772,38 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Y05Zm05" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.42, -0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.6, -0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, -1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y05Zm05"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y05Zm05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Y05Zm05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
 shape = SubResource("BoxShape3D_lj187")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX00Y05Zm05"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 0.999999, -1, -4.37114e-08, 0, 4.37114e-08, -0.999999, -4.37114e-08, 0, 0, -0.1)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Y07Zm03" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0.5, -0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0.8, -0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, -0.5)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Y07Zm03"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Y07Zm03"]
@@ -673,14 +812,14 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Ym03Zm07" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -0.25, -0.5)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -0.3, -0.8)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -0.5, -1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym03Zm07"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym03Zm07"]
@@ -689,30 +828,38 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="PosX00Ym05Zm05" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, -0.42, -0.42)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, -0.6, -0.6)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -1, -1)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym05Zm05"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym05Zm05"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PosX00Ym05Zm05/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
 shape = SubResource("BoxShape3D_lj187")
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="PosX00Ym05Zm05"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 0.999999, -1, -4.37114e-08, 0, 4.37114e-08, -0.999999, -4.37114e-08, 0, 0, -0.1)
+material_overlay = ExtResource("5_b2216")
+radius = 0.05
+height = 0.1
+cone = true
+
 [node name="PosX00Ym07Zm03" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, -0.5, -0.25)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, -0.8, -0.3)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, -1, -0.5)
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PosX00Ym07Zm03"]
-material_overlay = ExtResource("5_uaiwx")
+material_overlay = ExtResource("5_b2216")
 size = Vector3(0.05, 0.05, 0.1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="PosX00Ym07Zm03"]
@@ -721,13 +868,14 @@ size = Vector3(0.05, 0.05, 0.1)
 shape = SubResource("BoxShape3D_lj187")
 
 [node name="RingY" type="Node3D" parent="."]
-script = ExtResource("2_pcjjg")
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 1, 0)
 TransformType = 1
 basecolor = Color(0, 1, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingY"]
+process_mode = 4
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
@@ -737,27 +885,29 @@ shape = SubResource("CylinderShape3D_drnjs")
 
 [node name="RingY" type="CSGTorus3D" parent="RingY"]
 sorting_offset = 999.0
-material_override = ExtResource("4_d4ecl")
-material_overlay = ExtResource("4_d4ecl")
+material_override = ExtResource("4_o06le")
+material_overlay = ExtResource("4_o06le")
 snap = 1e-06
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
-inner_radius = 0.27
-outer_radius = 0.3
+inner_radius = 0.3
+outer_radius = 0.35
 sides = 20
 ring_sides = 3
 smooth_faces = false
 
 [node name="RingX" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 1)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(1, 0, 0)
 TransformType = 1
 basecolor = Color(1, 0, 0, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingX"]
+process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, -8.35189e-23, 0, -8.35188e-23, 1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 0
@@ -770,46 +920,190 @@ shape = SubResource("CylinderShape3D_d7vnf")
 transform = Transform3D(1, 0, 0, 0, 1, -8.35189e-23, 0, -8.35188e-23, 1, 0, 0, 0)
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("3_lonf2")
-material_overlay = ExtResource("3_lonf2")
+material_override = ExtResource("3_wcoms")
+material_overlay = ExtResource("3_wcoms")
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
-inner_radius = 0.27
-outer_radius = 0.3
+inner_radius = 0.3
+outer_radius = 0.35
 sides = 20
 ring_sides = 3
 smooth_faces = false
 
 [node name="RingZ" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
-script = ExtResource("2_pcjjg")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("2_6x6sk")
 axis = Vector3(0, 0, 1)
 TransformType = 1
 basecolor = Color(0, 0, 1, 1)
 selcolor = Color(1, 1, 0, 1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RingZ"]
+process_mode = 4
 collision_layer = 2
 collision_mask = 0
 collision_priority = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingZ/StaticBody3D"]
-shape = SubResource("CylinderShape3D_dlswh")
+shape = SubResource("CylinderShape3D_0kq1a")
 
 [node name="RingZ" type="CSGTorus3D" parent="RingZ"]
 layers = 2
 sorting_offset = 999.0
-material_override = ExtResource("5_uaiwx")
-material_overlay = ExtResource("5_uaiwx")
+material_override = ExtResource("5_b2216")
+material_overlay = ExtResource("5_b2216")
+use_collision = true
 collision_layer = 2
 collision_mask = 2
 collision_priority = 100.0
-inner_radius = 0.27
-outer_radius = 0.3
+inner_radius = 0.3
+outer_radius = 0.35
 sides = 20
 ring_sides = 3
 smooth_faces = false
+
+[node name="ScaleCenter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("2_6x6sk")
+axis = Vector3(1, 1, 1)
+TransformType = 2
+basecolor = Color(1, 1, 1, 0.556863)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="ScaleCenter" type="CSGBox3D" parent="ScaleCenter"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("6_x3l0o")
+material = ExtResource("6_x3l0o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ScaleCenter"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScaleCenter/StaticBody3D"]
+shape = SubResource("BoxShape3D_hjpte")
+
+[node name="BoxXR" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1, 0, 0)
+script = ExtResource("2_6x6sk")
+axis = Vector3(1, 0, 0)
+TransformType = 2
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxX" type="CSGBox3D" parent="BoxXR"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxXR"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxXR/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
+
+[node name="BoxXL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1, 0, 0)
+script = ExtResource("2_6x6sk")
+axis = Vector3(1, 0, 0)
+TransformType = 2
+basecolor = Color(1, 0, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxX" type="CSGBox3D" parent="BoxXL"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("3_wcoms")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxXL"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxXL/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
+
+[node name="BoxYT" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+script = ExtResource("2_6x6sk")
+axis = Vector3(0, 1, 0)
+TransformType = 2
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxY" type="CSGBox3D" parent="BoxYT"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("4_o06le")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxYT"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxYT/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
+
+[node name="BoxYB" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1, 0)
+script = ExtResource("2_6x6sk")
+axis = Vector3(0, 1, 0)
+TransformType = 2
+basecolor = Color(0, 1, 0, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxY" type="CSGBox3D" parent="BoxYB"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("4_o06le")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxYB"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxYB/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
+
+[node name="BoxZF" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
+script = ExtResource("2_6x6sk")
+axis = Vector3(0, 0, 1)
+TransformType = 2
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxZ" type="CSGBox3D" parent="BoxZF"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("5_b2216")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxZF"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxZF/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
+
+[node name="BoxZB" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
+script = ExtResource("2_6x6sk")
+axis = Vector3(0, 0, 1)
+TransformType = 2
+basecolor = Color(0, 0, 1, 1)
+selcolor = Color(1, 1, 0, 1)
+
+[node name="BoxZ" type="CSGBox3D" parent="BoxZB"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+material_overlay = ExtResource("5_b2216")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxZB"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+collision_mask = 0
+collision_priority = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxZB/StaticBody3D"]
+shape = SubResource("BoxShape3D_vyxvt")
 
 [connection signal="release_this_axis" from="PosXRight" to="." method="release_event_axis2"]
 [connection signal="release_this_axis" from="PosX07Y00Z03" to="." method="release_event_axis2"]
@@ -856,3 +1150,10 @@ smooth_faces = false
 [connection signal="release_this_axis" from="RingY" to="." method="release_event_axis2"]
 [connection signal="release_this_axis" from="RingX" to="." method="release_event_axis2"]
 [connection signal="release_this_axis" from="RingZ" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="ScaleCenter" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxXR" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxXL" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxYT" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxYB" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxZF" to="." method="release_event_axis2"]
+[connection signal="release_this_axis" from="BoxZB" to="." method="release_event_axis2"]

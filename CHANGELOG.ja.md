@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2024/11/03
+
+* ギズモテンプレートの名称を変更。不要なテンプレートを移動。（gizmo_buttonform_template2 は gizmo_firework_formと名付けました。）
+* シグナルを追加（ギズモに動きがあった後にイベントを接続することができます）
+
+## 2024/10/23
+
+* TransformCtrlGizmoServerにChild Visual Layerプロパティを追加。
+
 ## 2024/10/20
 
 * テンプレートが「gizmo_buttonform_template2」のとき、移動の操作では操作中の軸以外は非表示になるようにした。
