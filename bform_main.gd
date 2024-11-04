@@ -80,37 +80,76 @@ func setup_transform_visible(is_translate: bool, is_rotate: bool, is_scale: bool
 	for tcg: TCGizmoBtnFormChild in children:
 		if tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Translate:
 			tcg.visible = is_translate
+			if is_translate:
+				tcg.process_mode = Node.PROCESS_MODE_INHERIT
+			else:
+				tcg.process_mode = Node.PROCESS_MODE_DISABLED
 			if is_translate == true:
 				if (tcg.axis.x != 0):
 					if is_x == false:
 						tcg.visible = is_x
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 					
 				if  (tcg.axis.y != 0):
 					if is_y == false:
 						tcg.visible = is_y
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 					
 				if  (tcg.axis.z != 0):
 					if is_z == false:
 						tcg.visible = is_z
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 				
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Rotate:
 			tcg.visible = is_rotate
+			if is_rotate:
+				tcg.process_mode = Node.PROCESS_MODE_INHERIT
+			else:
+				tcg.process_mode = Node.PROCESS_MODE_DISABLED
 			if is_rotate == true:
 				if  ((tcg.axis.x != 0) and (is_x == false)):
 					tcg.visible = is_x
+					if is_x:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 				if  ((tcg.axis.y != 0) and (is_y == false)):
 					tcg.visible = is_y
+					if is_y:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 				if  ((tcg.axis.z != 0) and (is_z == false)):
 					tcg.visible = is_z
+					if is_z:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 		elif tcg.TransformType == TCGizmoBtnFormChild.TransformOperateType.Scale:
 			tcg.visible = is_scale
+			if is_scale:
+				tcg.process_mode = Node.PROCESS_MODE_INHERIT
+			else:
+				tcg.process_mode = Node.PROCESS_MODE_DISABLED
 			if is_scale == true:
 				if  ((tcg.axis.x != 0) ):
 					tcg.visible = is_x
+					if is_x:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 				if  ((tcg.axis.y != 0) ):
 					tcg.visible = is_y
+					if is_y:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 				if ((tcg.axis.z != 0) ):
 					tcg.visible = is_z
+					if is_z:
+						tcg.process_mode = Node.PROCESS_MODE_INHERIT
+					else:
+						tcg.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	is_translation = is_translate
 	is_rotation = is_rotate
@@ -268,14 +307,16 @@ func unhandled_input(event: InputEvent, hitobject, hitparent):
 				if is_pressing_leftbutton == false:
 					#---change once when state is false.
 					pressing_tcgizmo.change_state_this_axis(event)
-				is_pressing_leftbutton = event.pressed
+					gizmo_focus.emit()
 				last_mouse_pos = event.position
-				
 			else:
 				#---release this axis gizmo
 				if !pressing_tcgizmo:
 					return
 				pressing_tcgizmo.change_state_this_axis(event)
+				if is_pressing_leftbutton == true:
+					#---fire once
+					gizmo_ungrab.emit()
 			is_pressing_leftbutton = event.pressed
 	elif  event is InputEventMouseMotion:
 		if !pressing_tcgizmo:

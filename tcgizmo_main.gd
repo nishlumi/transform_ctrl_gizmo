@@ -9,6 +9,10 @@ signal gizmo_translate(pos: Vector3, pos_global: Vector3)
 signal gizmo_rotate(rot: Vector3, rot_global: Vector3)
 ## The gizmo was resized
 signal gizmo_scaling(sca: Vector3)
+## Start focus gizmo
+signal gizmo_focus()
+## Unfocus gizmo
+signal gizmo_ungrab()
 
 @export var is_relative: bool = false
 @export var is_translation: bool
@@ -512,15 +516,19 @@ func unhandled_input(event: InputEvent, hitobject, hitparent):
 			if event.pressed:
 				#---click hold the this axis gizmo
 				pressing_tcgizmo = hitparent
-				is_pressing_leftbutton = event.pressed
+				if is_pressing_leftbutton == false:
+					#---change once when state is false.
+					pressing_tcgizmo.change_state_this_axis(event)
+					gizmo_focus.emit()
 				last_mouse_pos = event.position
-				pressing_tcgizmo.change_state_this_axis(event)
-				
 			else:
 				#---release this axis gizmo
 				if !pressing_tcgizmo:
 					return
 				pressing_tcgizmo.change_state_this_axis(event)
+				if is_pressing_leftbutton == true:
+					#---fire once
+					gizmo_ungrab.emit()
 			is_pressing_leftbutton = event.pressed
 	elif  event is InputEventMouseMotion:
 		if !pressing_tcgizmo:

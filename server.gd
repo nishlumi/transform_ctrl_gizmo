@@ -9,7 +9,10 @@ signal gizmo_complete_rotate(angle: Vector3, angle_global: Vector3)
 signal gizmo_complete_scale(scale: Vector3)
 ## gizmo target changed
 signal gizmo_changed_target(newtarget: Node, oldtarget: Node)
-
+## Start grab gizmo
+signal gizmo_grab()
+## Finish to grab gizmo
+signal gizmo_ungrab()
 
 #---if you want to change tscn, change .tscn name.
 #var gizmo_template = preload("res://addons/transform_ctrl_gizmo/gizmo_template2.tscn")
@@ -64,6 +67,8 @@ func _ready() -> void:
 		controller.connect("gizmo_translate",_on_receive_gizmo_translate)
 		controller.connect("gizmo_rotate",_on_receive_gizmo_rotate)
 		controller.connect("gizmo_scaling",_on_receive_gizmo_scale)
+		controller.connect("gizmo_ungrab",_on_receive_gizmo_ungrab)
+		controller.connect("gizmo_focus",_on_receive_gizmo_grab)
 	
 	if MainCamera == null:
 		MainCamera = get_parent()
@@ -285,3 +290,9 @@ func _on_receive_gizmo_rotate(rot: Vector3, rot_global: Vector3):
 
 func _on_receive_gizmo_scale(scale: Vector3, is_global: bool):
 	gizmo_complete_scale.emit(scale)
+
+func _on_receive_gizmo_ungrab():
+	gizmo_ungrab.emit()
+
+func _on_receive_gizmo_grab():
+	gizmo_grab.emit()
