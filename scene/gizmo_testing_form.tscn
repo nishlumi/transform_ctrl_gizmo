@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://dtihxutn4v713"]
 
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_420n8"]
-[ext_resource type="Script" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_2juk7"]
+[ext_resource type="Script" uid="uid://bcyuuphx2kj0o" path="res://addons/transform_ctrl_gizmo/tcgizmo_main.gd" id="1_420n8"]
+[ext_resource type="Script" uid="uid://dexp11lqt1bj2" path="res://addons/transform_ctrl_gizmo/tcgizmo_child.gd" id="2_2juk7"]
 [ext_resource type="Material" uid="uid://bsdt1wmds5ddt" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_r.tres" id="3_n6xf0"]
 [ext_resource type="Material" uid="uid://d2crn0daggk0d" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_g.tres" id="4_2youp"]
 [ext_resource type="Material" uid="uid://c8bey1mory0bw" path="res://addons/transform_ctrl_gizmo/mat3d_ctrlgizmo_b.tres" id="5_nh2jv"]
